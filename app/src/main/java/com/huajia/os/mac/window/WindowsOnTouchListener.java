@@ -22,28 +22,49 @@ public class WindowsOnTouchListener implements View.OnTouchListener{
     private WindowManager.LayoutParams layoutParams;
 
     private int x;
-    private int y;
-    private int downX;
-    private int downY;
-    private int viewX = 10;
-    private int viewY = 300;
 
-    public WindowsOnTouchListener(Window window,BaseApplication application,WindowManager.LayoutParams layoutParams){
+    private int y;
+
+    private int downX;
+
+    private int downY;
+
+    private int viewX;
+
+    private int viewY;
+    /**
+     * 双击事件
+     */
+    private static final long DOUBLE_CLICK_TIME_DELTA = 300; // 双击事件的时间间隔（毫秒）
+
+    private long lastClickTime = 0;
+
+    public WindowsOnTouchListener(Window window,BaseApplication application,WindowManager.LayoutParams layoutParams,int viewX,int viewY){
         this.window = window;
         this.application = application;
         this.layoutParams = layoutParams;
+        this.viewX = viewX;
+        this.viewY  =viewY;
     }
 
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
         this.layoutParams.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
+        //移动事件
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:  //按下
                 x = (int) event.getRawX();
                 y = (int) event.getRawY();
                 downX = (int) event.getRawX();
                 downY = (int) event.getRawY();
+
+                //双击事件 关闭app
+                long clickTime = System.currentTimeMillis();
+                if (clickTime - lastClickTime < DOUBLE_CLICK_TIME_DELTA){
+                    application.dismiss();
+                }
+                lastClickTime = clickTime;
                 break;
             case MotionEvent.ACTION_MOVE:  //移动
                 int nowX = (int) event.getRawX();

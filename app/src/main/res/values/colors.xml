@@ -8,4 +8,5 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="main_bottom_bg_color">#B3FFFFFF</color>
+    <color name="app_desktop_bg_color">#CC000000</color>
 </resources>

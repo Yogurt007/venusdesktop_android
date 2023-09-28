@@ -7,5 +7,9 @@ package com.huajia.os.mac.window;
 
 public class WindowsConstant {
 
+    public static final int APP_MARGIN = 50;
+
     public static final String CameraApplication = "CameraApplication";
+
+    public static final String MusicApplication =" MusicApplication";
 }

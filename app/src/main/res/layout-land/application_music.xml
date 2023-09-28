@@ -4,19 +4,19 @@
     android:layout_height="match_parent"
     android:id="@+id/application_layout">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/application_bg">
 
-        <androidx.camera.view.PreviewView
-            android:id="@+id/preview"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_centerInParent="true">
-        </androidx.camera.view.PreviewView>
-
         <include layout="@layout/application_top_bar"/>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Music"
+            android:layout_centerInParent="true"/>
+
+    </RelativeLayout>
 
 </FrameLayout>

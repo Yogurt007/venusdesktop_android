@@ -1,13 +1,25 @@
 package com.huajia.os.mac.application.camera;
 
-import android.app.Dialog;
+import android.Manifest;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ShapeDrawable;
+import android.graphics.drawable.shapes.RoundRectShape;
+import android.os.Bundle;
+import android.view.View;
+import android.view.ViewOutlineProvider;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.camera.view.PreviewView;
+import androidx.lifecycle.LifecycleOwner;
 
 import com.huajia.os.mac.R;
 import com.huajia.os.mac.application.BaseApplication;
+import com.huajia.os.mac.application.camera.cameraX.CameraXController;
+import com.huajia.os.mac.application.camera.cameraX.RoundedCornerOutlineProvider;
+import com.huajia.os.mac.utils.PermissionHelper;
 
 /**
  * @author: huajia
@@ -15,9 +27,20 @@ import com.huajia.os.mac.application.BaseApplication;
  */
 
 public class CameraApplication extends BaseApplication {
+
+    private Context mContext;
+
+    private ImageView ivClose;
+
+    private static final int CAMERA_PERMISSION_REQUEST_CODE = 1;
+
+    private CameraXController mCameraXController;
+
+    private PreviewView mPreviewView;
+
     public CameraApplication(@NonNull Context context) {
         super(context);
-        setContentView(R.layout.application_camera);
+        mContext = context;
     }
 
     public CameraApplication(@NonNull Context context, int themeResId) {
@@ -27,4 +50,38 @@ public class CameraApplication extends BaseApplication {
     protected CameraApplication(@NonNull Context context, boolean cancelable, @Nullable OnCancelListener cancelListener) {
         super(context, cancelable, cancelListener);
     }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.application_camera);
+        checkPermission();
+        initView();
+        initCamera();
+    }
+
+    private void initView() {
+        ivClose = findViewById(R.id.close_button);
+        mPreviewView = findViewById(R.id.preview);
+        ivClose.setOnClickListener(view -> {
+            dismiss();
+        });
+    }
+
+    private void initCamera(){
+        mPreviewView.setOutlineProvider(new RoundedCornerOutlineProvider(30));
+        mPreviewView.setClipToOutline(true);
+        mPreviewView.setImplementationMode(PreviewView.ImplementationMode.COMPATIBLE);
+        mCameraXController = new CameraXController(getContext(),mPreviewView);
+        mCameraXController.startCamera((LifecycleOwner) mContext);
+    }
+
+    private void checkPermission(){
+        if (!PermissionHelper.hasCameraPermission(getContext())){
+            getOwnerActivity().requestPermissions(new String[]{Manifest.permission.CAMERA},101);
+            dismiss();
+        }
+    }
+
+
 }

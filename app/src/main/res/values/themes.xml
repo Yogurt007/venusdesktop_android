@@ -1,5 +1,16 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.MAC" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="Theme.MAC" parent="Theme.AppCompat.DayNight.NoActionBar">
+    </style>
+    
+    <style name="AppOpenAndCloseAnim">
+        <item name="android:windowEnterAnimation">@anim/application_open_anim</item>
+        <item name="android:windowExitAnimation">@anim/application_close_anim</item>
+    </style>
+
+    <style name="WhiteSeekBar">
+        <item name="android:colorControlActivated">#FFFFFF</item> <!-- 滑块的颜色 -->
+        <item name="android:colorControlNormal">#FFFFFF</item> <!-- 轨道的颜色 -->
+        <item name="android:colorBackground">#FFFFFF</item> <!-- 背景颜色 -->
     </style>
 </resources>
