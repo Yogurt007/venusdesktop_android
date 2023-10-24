@@ -1,6 +1,7 @@
 package com.huajia.os.mac.window;
 
 import android.content.Context;
+import android.util.Size;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
@@ -15,7 +16,8 @@ import com.huajia.os.mac.R;
 import com.huajia.os.mac.application.BaseApplication;
 import com.huajia.os.mac.application.camera.CameraApplication;
 import com.huajia.os.mac.application.music.MusicApplication;
-import com.huajia.os.mac.viewmodel.MainActivityViewModel;
+import com.huajia.os.mac.utils.SizeUtils;
+import com.huajia.os.mac.utils.ToastUtils;
 
 import java.util.HashMap;
 
@@ -33,7 +35,11 @@ public class WindowsManager {
 
     private static volatile WindowsManager instance;
 
-    private MainActivityViewModel mViewModel;
+    private int maxHeightApplciation;
+
+    private int maxWidthApplication;
+
+    private int topHeight;
 
     private WindowsManager(){}
 
@@ -50,7 +56,6 @@ public class WindowsManager {
 
     public void init(Context context){
         this.context = context;
-        mViewModel = new ViewModelProvider((ViewModelStoreOwner) context).get(MainActivityViewModel.class);
     }
 
     public void initWindow(String type){
@@ -67,19 +72,20 @@ public class WindowsManager {
         //设置参考系
         layoutParams.gravity = Gravity.LEFT | Gravity.TOP;
         //起始坐标
-        layoutParams.x = getMiddleViewX(mViewModel.getMaxWidthApplication() / 3);
-        layoutParams.y = mViewModel.getTopHeight() + WindowsConstant.APP_MARGIN / 2;
+        layoutParams.x = getMiddleViewX(maxWidthApplication / 3);
+        layoutParams.y = topHeight + WindowsConstant.APP_MARGIN / 2;
         layoutParams.windowAnimations = R.style.AppOpenAndCloseAnim;
         window.setAttributes(layoutParams);
         window.setBackgroundDrawableResource(android.R.color.transparent);
         //touch监听
         window.getDecorView().setOnTouchListener(new WindowsOnTouchListener(window,application,layoutParams,layoutParams.x, layoutParams.y));
         //设置app宽高
-        window.setLayout(mViewModel.getMaxWidthApplication() / 2,mViewModel.getMaxHeightApplciation());
+        window.setLayout(SizeUtils.getApplicationWidth(application),SizeUtils.getApplicationHeight(application));
         application.show();
         backgroundApplication.put(type,application);
     }
 
+    //根据类型获取app实例
     private BaseApplication getApplication(Context context, String type) {
         if (checkBackground(type)){
             return null;
@@ -88,6 +94,7 @@ public class WindowsManager {
         switch (type){
             case WindowsConstant.CameraApplication:
                 application = new CameraApplication(context);
+                application.setmSize(new Size((int) (maxHeightApplciation / CameraApplication.CAMERA_RATIO),maxHeightApplciation));
                 break;
             case WindowsConstant.MusicApplication:
                 application = new MusicApplication(context);
@@ -114,6 +121,7 @@ public class WindowsManager {
             View view = application.findViewById(R.id.application_layout);
             Animation animation = AnimationUtils.loadAnimation(context, R.anim.application_active_tip_anim);
             view.startAnimation(animation);
+            ToastUtils.show(context,"应用已打开");
             return true;
         }
         backgroundApplication.remove(type);
@@ -127,10 +135,32 @@ public class WindowsManager {
      * @return
      */
     private int getMiddleViewX(int width){
-        int maxWidth = mViewModel.getMaxWidthApplication();
-        return (maxWidth - width) / 2;
+        return (maxWidthApplication - width) / 2;
     }
 
+    public int getMaxHeightApplciation() {
+        return maxHeightApplciation;
+    }
+
+    public void setMaxHeightApplciation(int maxHeightApplciation) {
+        this.maxHeightApplciation = maxHeightApplciation;
+    }
+
+    public int getMaxWidthApplication() {
+        return maxWidthApplication;
+    }
+
+    public void setMaxWidthApplication(int maxWidthApplication) {
+        this.maxWidthApplication = maxWidthApplication;
+    }
+
+    public int getTopHeight() {
+        return topHeight;
+    }
+
+    public void setTopHeight(int topHeight) {
+        this.topHeight = topHeight;
+    }
 }
 
 

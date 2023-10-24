@@ -13,7 +13,6 @@ import android.widget.TextView;
 
 import com.huajia.os.mac.activity.appdesktop.AppDesktopActivity;
 import com.huajia.os.mac.utils.UIHelper;
-import com.huajia.os.mac.viewmodel.MainActivityViewModel;
 import com.huajia.os.mac.window.WindowsConstant;
 import com.huajia.os.mac.window.WindowsManager;
 
@@ -25,8 +24,6 @@ import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity {
     private Context mContext;
-
-    private MainActivityViewModel mViewModel;
 
     private View desktop;
 
@@ -82,7 +79,6 @@ public class MainActivity extends AppCompatActivity {
     private void initData() {
         mContext = this;
         WindowsManager.getInstance().init(mContext);
-        mViewModel = new ViewModelProvider(this).get(MainActivityViewModel.class);
         getAppMaxLayout();
     }
 
@@ -94,23 +90,23 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onGlobalLayout() {
                 desktop.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                mViewModel.setMaxHeightApplciation(desktop.getHeight() - WindowsConstant.APP_MARGIN);
-                mViewModel.setMaxWidthApplication(desktop.getWidth() - WindowsConstant.APP_MARGIN);
+                WindowsManager.getInstance().setMaxHeightApplciation(desktop.getHeight() - WindowsConstant.APP_MARGIN);
+                WindowsManager.getInstance().setMaxWidthApplication(desktop.getWidth() - WindowsConstant.APP_MARGIN);
             }
         });
         topContainer.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
                 topContainer.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                mViewModel.setMaxHeightApplciation(mViewModel.getMaxHeightApplciation() - topContainer.getHeight());
-                mViewModel.setTopHeight(topContainer.getHeight());
+                WindowsManager.getInstance().setMaxHeightApplciation(WindowsManager.getInstance().getMaxHeightApplciation() - topContainer.getHeight());
+                WindowsManager.getInstance().setTopHeight(topContainer.getHeight());
             }
         });
         bottomContainer.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
                 bottomContainer.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                mViewModel.setMaxHeightApplciation(mViewModel.getMaxHeightApplciation() - bottomContainer.getHeight());
+                WindowsManager.getInstance().setMaxHeightApplciation(WindowsManager.getInstance().getMaxHeightApplciation() - bottomContainer.getHeight());
             }
         });
     }

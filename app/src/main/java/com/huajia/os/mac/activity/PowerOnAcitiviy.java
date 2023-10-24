@@ -20,6 +20,9 @@ import com.huajia.os.mac.MainActivity;
 import com.huajia.os.mac.R;
 import com.huajia.os.mac.utils.UIHelper;
 
+/**
+ * 开机动画
+ */
 public class PowerOnAcitiviy extends AppCompatActivity {
 
     private SeekBar mSeekBar;

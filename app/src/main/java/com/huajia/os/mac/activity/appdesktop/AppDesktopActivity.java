@@ -53,7 +53,7 @@ public class AppDesktopActivity extends AppCompatActivity {
         }
         mAdapter = new AppDesktopAdapter(this, mList);
         mRecyclerView.setAdapter(mAdapter);
-        mRecyclerView.setLayoutManager(new GridLayoutManager(this,7));
+        mRecyclerView.setLayoutManager(new GridLayoutManager(this,6));
 
     }
 }
