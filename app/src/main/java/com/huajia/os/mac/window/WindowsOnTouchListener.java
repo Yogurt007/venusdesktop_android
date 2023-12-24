@@ -50,7 +50,7 @@ public class WindowsOnTouchListener implements View.OnTouchListener{
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-        this.layoutParams.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
+        this.layoutParams.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL;
         //移动事件
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:  //按下

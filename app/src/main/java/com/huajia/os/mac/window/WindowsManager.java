@@ -9,12 +9,11 @@ import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
-import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelStoreOwner;
-
 import com.huajia.os.mac.R;
 import com.huajia.os.mac.application.BaseApplication;
+import com.huajia.os.mac.application.album.AlbumApplication;
 import com.huajia.os.mac.application.camera.CameraApplication;
+import com.huajia.os.mac.application.draw.DrawApplication;
 import com.huajia.os.mac.application.music.MusicApplication;
 import com.huajia.os.mac.utils.SizeUtils;
 import com.huajia.os.mac.utils.ToastUtils;
@@ -58,6 +57,11 @@ public class WindowsManager {
         this.context = context;
     }
 
+    /**
+     * 打开app
+     *
+     * @param type app类型
+     */
     public void initWindow(String type){
         Window window;
         BaseApplication application;
@@ -73,7 +77,7 @@ public class WindowsManager {
         layoutParams.gravity = Gravity.LEFT | Gravity.TOP;
         //起始坐标
         layoutParams.x = getMiddleViewX(maxWidthApplication / 3);
-        layoutParams.y = topHeight + WindowsConstant.APP_MARGIN / 2;
+        layoutParams.y = topHeight + WindowsConstants.APP_MARGIN / 2;
         layoutParams.windowAnimations = R.style.AppOpenAndCloseAnim;
         window.setAttributes(layoutParams);
         window.setBackgroundDrawableResource(android.R.color.transparent);
@@ -92,12 +96,19 @@ public class WindowsManager {
         }
         BaseApplication application = null;
         switch (type){
-            case WindowsConstant.CameraApplication:
+            case WindowsConstants.CameraApplication:
                 application = new CameraApplication(context);
                 application.setmSize(new Size((int) (maxHeightApplciation / CameraApplication.CAMERA_RATIO),maxHeightApplciation));
                 break;
-            case WindowsConstant.MusicApplication:
+            case WindowsConstants.MusicApplication:
                 application = new MusicApplication(context);
+                break;
+            case WindowsConstants.AlbumApplication:
+                application = new AlbumApplication(context);
+                break;
+            case WindowsConstants.DrawApplication:
+                application = new DrawApplication(context);
+                application.setmSize(new Size(maxWidthApplication,maxHeightApplciation));
                 break;
         }
         return application;
@@ -106,7 +117,7 @@ public class WindowsManager {
     /**
      * 检查后台是否存活
      * 存活：动画提示
-     * 不存货：重新打开应用
+     * 不存活：重新打开应用
      * @return
      */
     private boolean checkBackground(String type){
