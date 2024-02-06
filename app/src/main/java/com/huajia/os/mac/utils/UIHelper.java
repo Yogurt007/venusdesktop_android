@@ -23,4 +23,20 @@ public class UIHelper {
         activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
     }
 
+    /**
+     * dp转px
+     */
+    public static int dp2px(Context ctx, float dpValue) {
+        final float scale = ctx.getResources().getDisplayMetrics().density;
+        return (int) (dpValue * scale + 0.5f);
+    }
+
+
+    /**
+     * px转dp
+     */
+    public static int px2dp(Context ctx, float pxValue) {
+        final float scale = ctx.getResources().getDisplayMetrics().density;
+        return (int) (pxValue / scale + 0.5f);
+    }
 }

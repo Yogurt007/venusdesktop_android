@@ -94,23 +94,7 @@ public class WindowsManager {
         if (checkBackground(type)){
             return null;
         }
-        BaseApplication application = null;
-        switch (type){
-            case WindowsConstants.CameraApplication:
-                application = new CameraApplication(context);
-                application.setmSize(new Size((int) (maxHeightApplciation / CameraApplication.CAMERA_RATIO),maxHeightApplciation));
-                break;
-            case WindowsConstants.MusicApplication:
-                application = new MusicApplication(context);
-                break;
-            case WindowsConstants.AlbumApplication:
-                application = new AlbumApplication(context);
-                break;
-            case WindowsConstants.DrawApplication:
-                application = new DrawApplication(context);
-                application.setmSize(new Size(maxWidthApplication,maxHeightApplciation));
-                break;
-        }
+        BaseApplication application = WindowsFactory.getInstance().getWindow(context, type);
         return application;
     }
 
@@ -149,6 +133,10 @@ public class WindowsManager {
         return (maxWidthApplication - width) / 2;
     }
 
+    /**
+     * 获取可以设置的最大高度
+     * @return
+     */
     public int getMaxHeightApplciation() {
         return maxHeightApplciation;
     }
@@ -157,6 +145,10 @@ public class WindowsManager {
         this.maxHeightApplciation = maxHeightApplciation;
     }
 
+    /**
+     * 获取可以设置的最大宽度
+     * @return
+     */
     public int getMaxWidthApplication() {
         return maxWidthApplication;
     }

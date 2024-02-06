@@ -55,7 +55,7 @@ public class AppViewRecylerAdapter extends RecyclerView.Adapter {
         return mList.size();
     }
 
-    public void refeshData(List<App> list){
+    public void refreshData(List<App> list){
         mList = list;
         notifyDataSetChanged();
     }

@@ -22,7 +22,7 @@ import java.util.List;
 public class AppView extends FrameLayout {
     private static final String TAG = "AppView";
 
-    private static final int PAGE_NUM = 8;
+    private static final int PAGE_NUM = 15;
 
     private View rootView;
 
@@ -32,7 +32,9 @@ public class AppView extends FrameLayout {
 
     private PackageManager mPackageManager;
 
-    private AppViewPagerAdapter mAdaper;
+    private AppViewPagerAdapter mAdapter;
+
+    private DotLayout dotLayout;
 
     public AppView(Context context) {
         super(context);
@@ -53,8 +55,18 @@ public class AppView extends FrameLayout {
         rootView = LayoutInflater.from(getContext()).inflate(R.layout.app_view,this);
         mViewPager = rootView.findViewById(R.id.view_pager);
         initData();
-        mAdaper = new AppViewPagerAdapter(getContext(),mList,PAGE_NUM);
-        mViewPager.setAdapter(mAdaper);
+        mAdapter = new AppViewPagerAdapter(getContext(),mList,PAGE_NUM);
+        mViewPager.setAdapter(mAdapter);
+        mViewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageSelected(int position) {
+                super.onPageSelected(position);
+                dotLayout.setCurrentItem(position);
+            }
+        });
+
+        dotLayout = rootView.findViewById(R.id.dot_layout);
+        dotLayout.init((int) Math.ceil(mList.size() / 16f));
     }
 
     private void initData(){

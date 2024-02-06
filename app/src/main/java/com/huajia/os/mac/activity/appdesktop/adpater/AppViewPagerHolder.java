@@ -25,10 +25,10 @@ public class AppViewPagerHolder extends RecyclerView.ViewHolder {
         mRecylerView = itemView.findViewById(R.id.recyler_view);
         mAdapter = new AppViewRecylerAdapter(context,mList);
         mRecylerView.setAdapter(mAdapter);
-        mRecylerView.setLayoutManager(new GridLayoutManager(context,4));
+        mRecylerView.setLayoutManager(new GridLayoutManager(context,5));
     }
 
     public void setData(List<App> list){
-        mAdapter.refeshData(list);
+        mAdapter.refreshData(list);
     }
 }

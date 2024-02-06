@@ -1,19 +1,17 @@
 package com.huajia.os.mac;
 
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.huajia.os.mac.activity.appdesktop.AppDesktopActivity;
-import com.huajia.os.mac.utils.UIHelper;
+import com.huajia.os.mac.base.BaseActivity;
 import com.huajia.os.mac.window.WindowsConstants;
 import com.huajia.os.mac.window.WindowsManager;
 
@@ -25,7 +23,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
     private static final String TAG = "MainActivity";
 
     private Context mContext;
@@ -53,9 +51,19 @@ public class MainActivity extends AppCompatActivity {
      */
     private ThreadPoolExecutor mThreadPool;
 
+    private BroadcastReceiver receiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            if (action.equals(Intent.ACTION_TIME_TICK)){
+                updateSystemTime();
+            }
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        UIHelper.initActivityUI(this);
+//        UIHelper.initActivityUI(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -65,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
 
         initData();
 
-        initTimeTask();
+        initBroadcast();
     }
 
     private void initView(){
@@ -121,6 +129,21 @@ public class MainActivity extends AppCompatActivity {
         getAppMaxLayout();
     }
 
+    private void initBroadcast(){
+        // 时间更新广播
+        updateSystemTime();
+        IntentFilter timeIntent = new IntentFilter();
+        timeIntent.addAction(Intent.ACTION_TIME_TICK);
+        registerReceiver(receiver, timeIntent);
+    }
+
+    private void updateSystemTime(){
+        Date currentDate = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("MM月dd日 EEEE HH:mm", Locale.getDefault());
+        String nowTime = sdf.format(currentDate);
+        tvTopTime.setText(nowTime);
+    }
+
     /**
      * 获取app最大宽高
      */
@@ -151,27 +174,28 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * 初始化桌面事件任务
+     * 时间任务
      */
     private void initTimeTask(){
-        mThreadPool.submit(() -> {
-            String lastTime = "";
-            while (true){
-                Date currentDate = new Date();
-                SimpleDateFormat sdf = new SimpleDateFormat("MM月dd日 EEEE HH:mm", Locale.getDefault());
-                String nowTime = sdf.format(currentDate);
-                if (!TextUtils.equals(lastTime,nowTime)){
-                    lastTime = nowTime;
-                    tvTopTime.post(() -> {
-                        tvTopTime.setText(nowTime);
-                    });
-                }
-                try {
-                    Thread.sleep(1000);
-                }catch (InterruptedException e){
-                    Log.i(TAG,"time task is error:" + e.getMessage());
-                }
-            }
-        });
+
+//        mThreadPool.submit(() -> {
+//            String lastTime = "";
+//            while (true){
+//                Date currentDate = new Date();
+//                SimpleDateFormat sdf = new SimpleDateFormat("MM月dd日 EEEE HH:mm", Locale.getDefault());
+//                String nowTime = sdf.format(currentDate);
+//                if (!TextUtils.equals(lastTime,nowTime)){
+//                    lastTime = nowTime;
+//                    tvTopTime.post(() -> {
+//                        tvTopTime.setText(nowTime);
+//                    });
+//                }
+//                try {
+//                    Thread.sleep(1000);
+//                }catch (InterruptedException e){
+//                    Log.i(TAG,"time task is error:" + e.getMessage());
+//                }
+//            }
+//        });
     }
 }
