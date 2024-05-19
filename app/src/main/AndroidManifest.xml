@@ -6,13 +6,27 @@
         android:name="android.hardware.camera"
         android:required="false" />
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
 <!--    写入文件权限-->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 <!--    获取所有应用权限-->
     <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES"
         tools:ignore="QueryAllPackagesPermission" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.BLUETOOTH"/>
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT"/>
+    <uses-permission android:name="android.permission.BLUETOOTH_SCAN"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+    <uses-permission android:name="android.permission.DISABLE_KEYGUARD"/>
 
     <application
+        android:name="com.huajia.mac.framework.app.AppApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -21,7 +35,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MAC"
         tools:targetApi="31">
-        <activity android:name=".activity.PowerOnActivity"
+        <service android:name="com.huajia.mac.framework.service.KeepLiveService"/>
+        <service android:name="com.huajia.mac.service.application.music.MusicService"/>
+        <activity android:name="com.huajia.mac.service.ui.SplashActivity"
             android:exported="true"
             android:screenOrientation="landscape">
             <intent-filter>
@@ -31,24 +47,21 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MainActivity"
+            android:name="com.huajia.mac.UIMainActivity"
             android:exported="true"
+            android:launchMode="singleTask"
             android:screenOrientation="landscape">
         </activity>
         <activity
-            android:name=".activity.appdesktop.AppDesktopActivity"
+            android:name="com.huajia.mac.service.ui.desktop.AppDesktopActivity"
             android:exported="false"
             android:screenOrientation="landscape">
         </activity>
+        <activity android:name="com.huajia.mac.service.application.music.MusicLockActivity"
+            android:exported="false"
+            android:launchMode="singleInstance"
+            android:noHistory="true"
+            android:excludeFromRecents="true"
+            android:screenOrientation="portrait"/>
     </application>
-
-    <!--适配华为（huawei）刘海屏-->
-    <meta-data
-        android:name="android.notch_support"
-        android:value="true"/>
-    <!--适配小米（xiaomi）刘海屏-->
-    <meta-data
-        android:name="notch.config"
-        android:value="portrait|landscape" />
-
 </manifest>

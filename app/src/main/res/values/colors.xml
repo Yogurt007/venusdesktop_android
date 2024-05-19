@@ -10,4 +10,12 @@
     <color name="main_bottom_bg_color">#B3FFFFFF</color>
     <color name="app_desktop_bg_color">#CC000000</color>
     <color name="music_grey">#ABABAB</color>
+    <color name="transparent">#00FFFFFF</color>
+<!--    克莱因蓝-->
+    <color name="color_klein_blue">#002FA7</color>
+    <color name="color_incorrect_red">#FF0000</color>
+    <color name="color_correct_green">#00FF00</color>
+    <!-- 主题粉-->
+    <color name="color_theme_pink">#f596db</color>
+    <color name="color_theme_white">#F1F3F5</color>
 </resources>

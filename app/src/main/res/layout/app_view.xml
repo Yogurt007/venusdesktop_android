@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.huajia.os.mac.activity.appdesktop.view.DotLayout
+        <com.huajia.mac.service.ui.desktop.view.DotLayout
             android:id="@+id/dot_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

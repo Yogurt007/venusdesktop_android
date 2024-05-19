@@ -27,7 +27,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="访达"
+                android:text="关于"
                 android:textColor="@color/black"
                 android:gravity="center_vertical"
                 android:layout_marginStart="10dp"/>
@@ -35,50 +35,37 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="文件"
+                android:text="设置"
                 android:textColor="@color/black"
                 android:gravity="center_vertical"
                 android:layout_marginStart="10dp"/>
 
-            <TextView
+            <LinearLayout
+                android:id="@+id/top_music"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="编辑"
-                android:textColor="@color/black"
                 android:gravity="center_vertical"
-                android:layout_marginStart="10dp"/>
+                android:background="@drawable/bg_main_activity_top_music"
+                android:paddingHorizontal="4dp"
+                android:layout_marginVertical="2dp"
+                android:layout_marginStart="10dp"
+                android:visibility="gone">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="显示"
-                android:textColor="@color/black"
-                android:gravity="center_vertical"
-                android:layout_marginStart="10dp"/>
+                <ImageView
+                    android:id="@+id/top_music_stop"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:background="@drawable/bar_close"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="前往"
-                android:textColor="@color/black"
-                android:gravity="center_vertical"
-                android:layout_marginStart="10dp"/>
+                <com.huajia.mac.view.MarqueeTextView
+                    android:id="@+id/top_music_song_name"
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:layout_marginLeft="4dp"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="窗口"
-                android:textColor="@color/black"
-                android:gravity="center_vertical"
-                android:layout_marginStart="10dp"/>
+            </LinearLayout>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="帮助"
-                android:textColor="@color/black"
-                android:gravity="center_vertical"
-                android:layout_marginStart="10dp"/>
         </LinearLayout>
 
         <LinearLayout
@@ -88,13 +75,15 @@
             android:layout_marginEnd="30dp">
 
             <ImageView
+                android:id="@+id/volume_button"
                 android:layout_width="40dp"
                 android:layout_height="match_parent"
-                android:src="@drawable/icon_volum"
+                android:src="@drawable/icon_volume"
                 android:scaleX="0.7"
                 android:scaleY="0.7"/>
 
             <ImageView
+                android:id="@+id/wifi_button"
                 android:layout_width="40dp"
                 android:layout_height="match_parent"
                 android:src="@drawable/icon_wifi"
@@ -102,12 +91,12 @@
                 android:scaleY="0.5"/>
 
             <ImageView
+                android:id="@+id/bluetooth_button"
                 android:layout_width="40dp"
                 android:layout_height="match_parent"
-                android:src="@drawable/icon_query"
-                android:scaleX="0.7"
-                android:scaleY="0.7"/>
-
+                android:src="@drawable/icon_blue_tooth"
+                android:scaleX="0.5"
+                android:scaleY="0.5"/>
 
             <TextView
                 android:id="@+id/top_time"

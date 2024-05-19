@@ -4,23 +4,24 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
+    tools:context="com.huajia.mac.UIMainActivity"
     android:background="@drawable/macos">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/main_container">
 
-        <include
-            layout="@layout/activity_main_top"/>
+        <com.huajia.mac.widget.MainActivityTopView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+        <com.huajia.mac.widget.MainActivityBottomView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
 
 
-        <include
-            layout="@layout/activity_main_bottom"/>
-
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </FrameLayout>
 
 
 

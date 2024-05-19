@@ -8,9 +8,20 @@
         <item name="android:windowExitAnimation">@anim/application_close_anim</item>
     </style>
 
+    <style name="DialogOpenAndCloseAnim">
+        <item name="android:windowEnterAnimation">@anim/dialog_open_anim</item>
+        <item name="android:windowExitAnimation">@anim/dialog_close_anim</item>
+    </style>
+
     <style name="WhiteSeekBar">
         <item name="android:colorControlActivated">#FFFFFF</item> <!-- 滑块的颜色 -->
         <item name="android:colorControlNormal">#FFFFFF</item> <!-- 轨道的颜色 -->
         <item name="android:colorBackground">#FFFFFF</item> <!-- 背景颜色 -->
     </style>
+
+    <declare-styleable name="RoundImageView">
+        <attr name="radius" format="dimension"/>
+        <attr name="square" format="boolean"/>
+    </declare-styleable>
+
 </resources>

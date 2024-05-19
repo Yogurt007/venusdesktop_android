@@ -7,23 +7,33 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:padding="12dp">
 
         <ImageView
             android:id="@+id/close_button"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:layout_margin="12dp"
             android:src="@drawable/bar_close"/>
 
         <ImageView
             android:id="@+id/reduce_close"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:layout_marginTop="12dp"
             android:scaleX="0.8"
             android:scaleY="0.8"
+            android:layout_marginLeft="12dp"
             android:src="@drawable/bar_reduce"/>
+
+        <ImageView
+            android:id="@+id/back_button"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:scaleX="0.8"
+            android:scaleY="0.8"
+            android:layout_marginLeft="12dp"
+            android:src="@drawable/icon_back"
+            android:visibility="gone"/>
 
 
 
