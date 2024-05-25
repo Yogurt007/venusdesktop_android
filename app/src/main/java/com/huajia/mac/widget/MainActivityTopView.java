@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
+import com.huajia.mac.framework.window.WindowsWant;
 import com.huajia.os.mac.R;
 import com.huajia.mac.service.application.music.MusicService;
 import com.huajia.mac.service.application.music.MusicServiceConstants;
@@ -94,19 +95,19 @@ public class MainActivityTopView extends FrameLayout {
             @Override
             public void onClick(View view) {
                 Point coordinate = UIHelper.getViewLBottomCoordinate(wifiButton);
-                WindowsManager.getInstance().initWindow(WindowsConstants.WifiDialog, coordinate);
+                WindowsManager.getInstance().initWindow(new WindowsWant(WindowsConstants.WifiDialog, false, coordinate));
             }
         });
         volumeButton = findViewById(R.id.volume_button);
         volumeButton.setOnClickListener(view -> {
             Point coordinate = UIHelper.getViewLBottomCoordinate(volumeButton);
-            WindowsManager.getInstance().initWindow(WindowsConstants.VolumeDialog, coordinate);
+            WindowsManager.getInstance().initWindow(new WindowsWant(WindowsConstants.VolumeDialog, false, coordinate));
         });
 
         bluetoothButton = findViewById(R.id.bluetooth_button);
         bluetoothButton.setOnClickListener(view -> {
             Point coordinate = UIHelper.getViewLBottomCoordinate(bluetoothButton);
-            WindowsManager.getInstance().initWindow(WindowsConstants.BluetoothDialog, coordinate);
+            WindowsManager.getInstance().initWindow(new WindowsWant(WindowsConstants.BluetoothDialog, false, coordinate));
         });
         topMusicStop = rootView.findViewById(R.id.top_music_stop);
         topMusicStop.setOnClickListener( view -> {

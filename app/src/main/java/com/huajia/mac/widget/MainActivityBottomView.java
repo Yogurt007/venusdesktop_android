@@ -16,12 +16,15 @@ import androidx.annotation.Nullable;
 import com.hjq.permissions.OnPermissionCallback;
 import com.hjq.permissions.Permission;
 import com.hjq.permissions.XXPermissions;
+import com.huajia.mac.framework.window.WindowsWant;
+import com.huajia.mac.service.dialog.PermissionDialog;
 import com.huajia.os.mac.R;
 import com.huajia.mac.service.ui.desktop.AppDesktopActivity;
 import com.huajia.mac.framework.window.WindowsConstants;
 import com.huajia.mac.framework.window.WindowsManager;
 import com.huajia.mac.utils.ToastUtils;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -71,21 +74,21 @@ public class MainActivityBottomView extends FrameLayout {
 
         mCameraApp.setOnClickListener((view) -> {
             getCenterCoordinate(mCameraApp);
-            WindowsManager.getInstance().initWindow(WindowsConstants.CameraApplication);
+            WindowsManager.getInstance().initWindow(new WindowsWant(WindowsConstants.CameraApplication));
         });
         mMusicApp.setOnClickListener(view -> {
             getCenterCoordinate(mMusicApp);
-            WindowsManager.getInstance().initWindow(WindowsConstants.MusicApplication);
+            WindowsManager.getInstance().initWindow(new WindowsWant(WindowsConstants.MusicApplication));
         });
         mAppDesktop.setOnClickListener(view -> {
             Intent intent = new Intent(context, AppDesktopActivity.class);
             context.startActivity(intent);
         });
         mAlbumApp.setOnClickListener(view -> {
-            WindowsManager.getInstance().initWindow(WindowsConstants.AlbumApplication);
+            WindowsManager.getInstance().initWindow(new WindowsWant(WindowsConstants.AlbumApplication));
         });
         mDrawApp.setOnClickListener(view -> {
-            WindowsManager.getInstance().initWindow(WindowsConstants.DrawApplication);
+            WindowsManager.getInstance().initWindow(new WindowsWant(WindowsConstants.DrawApplication));
         });
         mGuitarApp.setOnClickListener(view -> {
             XXPermissions.with(getContext())
@@ -96,7 +99,7 @@ public class MainActivityBottomView extends FrameLayout {
                             if (!allGranted) {
                                 return;
                             }
-                            WindowsManager.getInstance().initWindow(WindowsConstants.GuitarApplication);
+                            WindowsManager.getInstance().initWindow(new WindowsWant(WindowsConstants.GuitarApplication));
                         }
 
                         @Override
@@ -107,7 +110,9 @@ public class MainActivityBottomView extends FrameLayout {
         });
         mTangApp.setOnClickListener(view -> {
 //            WindowsManager.getInstance().initWindow(WindowsConstants.TangPoemApplication);
-            WindowsManager.getInstance().initWindow(WindowsConstants.PermissionDialog, false, null);
+            HashMap<Object, Object> params = new HashMap<>();
+            params.put(PermissionDialog.PARAM_REASON, "使用相机需要申请 “ 相机权限 ”");
+            WindowsManager.getInstance().initWindow(new WindowsWant(WindowsConstants.PermissionDialog, false, null, params));
         });
     }
 

@@ -15,6 +15,7 @@ import com.huajia.mac.base.BaseApplication;
 import com.huajia.mac.utils.SizeUtils;
 import com.huajia.mac.utils.ToastUtils;
 
+import java.util.HashMap;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -64,39 +65,30 @@ public class WindowsManager {
         this.context = context;
     }
 
-    public void initWindow(String type) {
-        initWindow(type, true, null);
-    }
-
-    public void initWindow(String type, Point coordinate) {
-        initWindow(type, false, coordinate);
-    }
-
     /**
-     * 打开弹窗
-     * @param type 类型
-     * @param isNeedMove 是否需要可移动
-     * @param coordinate 起始坐标
+     * 初始化window
+     *
+     * @param windowsWant 启动参数
      */
-    public void initWindow(String type, boolean isNeedMove, Point coordinate) {
+    public void initWindow(WindowsWant windowsWant) {
         Window window;
         BaseApplication application;
-        application = getApplication(type);
+        application = getApplication(windowsWant.getType(), windowsWant.getParams());
         //应用存活，不需要打开
         if (application == null){
             return;
         }
         window = application.getWindow();
         WindowManager.LayoutParams layoutParams = window.getAttributes();
-        if (coordinate != null) {
+        if (windowsWant.getCoordinate() != null) {
             // 需要指定坐标的弹窗
             layoutParams.gravity = Gravity.LEFT | Gravity.TOP;
-            layoutParams.x = coordinate.x;
+            layoutParams.x = windowsWant.getCoordinate().x;
             layoutParams.y = WindowsManager.getInstance().getTopHeight();
             layoutParams.windowAnimations = R.style.DialogOpenAndCloseAnim;
             // 背景透明
             layoutParams.dimAmount = 0f;
-        } else if (!isNeedMove && coordinate == null) {
+        } else if (!windowsWant.isMove() && windowsWant.getCoordinate() == null) {
             // 提示弹窗： 1、居中 2、不需要移动
             layoutParams.gravity = Gravity.CENTER;
             layoutParams.windowAnimations = R.style.AppOpenAndCloseAnim;
@@ -112,7 +104,7 @@ public class WindowsManager {
         //设置app宽高
         window.setLayout(SizeUtils.getApplicationWidth(application),SizeUtils.getApplicationHeight(application));
         application.show();
-        backgroundApplication.put(type,application);
+        backgroundApplication.put(windowsWant.getType(), application);
     }
 
     /**
@@ -120,11 +112,11 @@ public class WindowsManager {
      * @param type app类型
      * @return
      */
-    private BaseApplication getApplication(String type) {
+    private BaseApplication getApplication(String type, HashMap<Object, Object> params) {
         if (checkBackground(type)){
             return null;
         }
-        BaseApplication application = WindowsFactory.getWindow(context, type);
+        BaseApplication application = WindowsFactory.getWindow(context, type, params);
         return application;
     }
 

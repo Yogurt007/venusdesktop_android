@@ -15,6 +15,9 @@ import com.huajia.mac.service.dialog.bluetooth.BluetoothDialog;
 import com.huajia.mac.service.dialog.VolumeDialog;
 import com.huajia.mac.service.dialog.wifi.WifiDialog;
 
+import java.util.HashMap;
+import java.util.Objects;
+
 /**
  * @Author: HuaJ1a
  * @Emal: 821759439@qq.com
@@ -22,12 +25,19 @@ import com.huajia.mac.service.dialog.wifi.WifiDialog;
  * @Description: app工厂
  */
 public class WindowsFactory {
-    private static WindowsFactory instance;
 
-    private WindowsFactory(){
+    private WindowsFactory() {
     }
 
-    public static BaseApplication getWindow(Context context, String type){
+    /**
+     * 构造application对象
+     *
+     * @param context context
+     * @param type 类型
+     * @param params 启动参数
+     * @return
+     */
+    public static BaseApplication getWindow(Context context, String type, HashMap<Object, Object> params) {
         BaseApplication application = null;
         switch (type){
             case WindowsConstants.CameraApplication:
@@ -65,9 +75,9 @@ public class WindowsFactory {
                 application.setSize(new Size((int) (WindowsManager.getInstance().getMaxWidthApplication() / 1.5f),
                         WindowsManager.getInstance().getMaxHeightApplication()));
             case WindowsConstants.PermissionDialog:
-                application = new PermissionDialog(context);
-                application.setSize(new Size(WindowsManager.getInstance().getMaxWidthApplication() / 3,
-                        WindowsManager.getInstance().getMaxHeightApplication() / 2));
+                application = new PermissionDialog(context, params);
+                application.setSize(new Size((int) (WindowsManager.getInstance().getMaxWidthApplication() / 2.5f),
+                        (int) (WindowsManager.getInstance().getMaxHeightApplication() / 1.5f)));
                 break;
         }
         return application;
