@@ -13,7 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.huajia.os.mac.R;
-import com.huajia.mac.service.ui.desktop.bean.App;
+import com.huajia.mac.service.ui.desktop.bean.LocalAppBean;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,11 +21,11 @@ import java.util.List;
 public class AppDesktopAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Context mContext;
 
-    private List<App> mList = new ArrayList<>();
+    private List<LocalAppBean> mList = new ArrayList<>();
 
     private PackageManager mPackageManager;
 
-    public AppDesktopAdapter(Context context,List<App> list){
+    public AppDesktopAdapter(Context context,List<LocalAppBean> list){
         this.mContext = context;
         this.mList = list;
         mPackageManager = mContext.getPackageManager();

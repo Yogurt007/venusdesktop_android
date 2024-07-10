@@ -15,7 +15,7 @@ public class WindowsWant {
     /**
      * application启动类型， 通常指 {@link WindowsConstants}
      */
-    private String type;
+    private WindowsRouter router;
 
     /**
      * application是否允许移动
@@ -35,23 +35,23 @@ public class WindowsWant {
      */
     private HashMap<Object, Object> params;
 
-    public WindowsWant(String type) {
+    public WindowsWant(WindowsRouter type) {
         this(type, true, null, null);
     }
 
-    public WindowsWant(String type, boolean move, Point coordinate) {
+    public WindowsWant(WindowsRouter type, boolean move, Point coordinate) {
         this(type, move, coordinate, null);
     }
 
-    public WindowsWant(String type, boolean move, Point coordinate, HashMap<Object, Object> params) {
-        this.type = type;
+    public WindowsWant(WindowsRouter type, boolean move, Point coordinate, HashMap<Object, Object> params) {
+        this.router = type;
         this.move = move;
         this.coordinate = coordinate;
         this.params = params;
     }
 
-    public String getType() {
-        return type;
+    public WindowsRouter getRouter() {
+        return router;
     }
 
     public boolean isMove() {

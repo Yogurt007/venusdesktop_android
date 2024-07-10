@@ -2,14 +2,14 @@ package com.huajia.mac.service.ui.desktop.bean;
 
 import android.graphics.drawable.Drawable;
 
-public class App {
+public class LocalAppBean {
     private String name;
 
     private Drawable icon;
 
     private String pkgName;
 
-    public App(String name,Drawable icon,String pkgName){
+    public LocalAppBean(String name, Drawable icon, String pkgName){
         this.name = name;
         this.icon = icon;
         this.pkgName = pkgName;

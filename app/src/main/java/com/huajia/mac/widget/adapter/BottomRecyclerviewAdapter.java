@@ -1,25 +1,32 @@
-package com.huajia.mac.service.ui.desktop.adpater;
+package com.huajia.mac.widget.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.huajia.mac.framework.application.ApplicationBean;
+import com.huajia.mac.framework.application.ApplicationManager;
 import com.huajia.os.mac.R;
-import com.huajia.mac.service.ui.desktop.bean.LocalAppBean;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.zip.Inflater;
 
-public class AppViewRecylerAdapter extends RecyclerView.Adapter {
-    private Context mContext;
+/**
+ * Description:
+ * Author: HuaJ1a
+ * Date: 2024/6/30
+ */
+public class BottomRecyclerviewAdapter extends RecyclerView.Adapter {
 
-    private List<LocalAppBean> mList = new ArrayList<>();
+    private Context context;
+
+    private List<ApplicationBean> appList;
 
     private ItemTouchHelper.Callback touchCallback = new ItemTouchHelper.Callback() {
         @Override
@@ -40,47 +47,45 @@ public class AppViewRecylerAdapter extends RecyclerView.Adapter {
         }
     };
 
-    public AppViewRecylerAdapter(Context context,List<LocalAppBean> list){
-        mContext = context;
-        mList = list;
+    public BottomRecyclerviewAdapter(Context context, List<ApplicationBean> appList) {
+        this.appList = appList;
+        this.context = context;
     }
 
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.item_of_app_recyler_view,parent,false);
-        AppViewRecylerHolder holder = new AppViewRecylerHolder(view);
-        return holder;
+        View view = LayoutInflater.from(this.context).inflate(R.layout.item_of_activity_bottom, parent, false);
+        BottomRecyclerviewHolder viewHolder = new BottomRecyclerviewHolder(view);
+        return viewHolder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        if (holder instanceof  AppViewRecylerHolder){
-            AppViewRecylerHolder viewHolder = (AppViewRecylerHolder) holder;
-            viewHolder.appName.setText(mList.get(position).getName());
-            viewHolder.appIcon.setImageDrawable(mList.get(position).getIcon());
-            viewHolder.mContainer.setOnClickListener(view -> {
-                try {
-                    Intent intent = mContext.getPackageManager().getLaunchIntentForPackage(mList.get(position).getPkgName());
-                    mContext.startActivity(intent);
-                }catch (Exception exception){
-
-                }
-            });
-        }
+        BottomRecyclerviewHolder viewHolder = (BottomRecyclerviewHolder) holder;
+        ApplicationBean applicationBean = this.appList.get(position);
+        viewHolder.icon.setImageDrawable(applicationBean.getIcon());
+        viewHolder.itemView.setOnClickListener( view -> {
+            ApplicationManager.getInstance().openApplication(this.context, applicationBean);
+        });
     }
 
     @Override
     public int getItemCount() {
-        return mList.size();
-    }
-
-    public void refreshData(List<LocalAppBean> list){
-        mList = list;
-        notifyDataSetChanged();
+        return appList == null ? 0 : appList.size();
     }
 
     public ItemTouchHelper.Callback getTouchCallback() {
         return touchCallback;
+    }
+
+    class BottomRecyclerviewHolder extends RecyclerView.ViewHolder {
+
+        private ImageView icon;
+
+        public BottomRecyclerviewHolder(@NonNull View itemView) {
+            super(itemView);
+            icon = itemView.findViewById(R.id.icon_view);
+        }
     }
 }

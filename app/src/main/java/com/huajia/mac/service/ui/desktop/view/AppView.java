@@ -12,9 +12,10 @@ import android.widget.FrameLayout;
 import androidx.annotation.Nullable;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.huajia.mac.framework.application.ApplicationManager;
 import com.huajia.mac.service.ui.desktop.adpater.AppViewPagerAdapter;
 import com.huajia.os.mac.R;
-import com.huajia.mac.service.ui.desktop.bean.App;
+import com.huajia.mac.service.ui.desktop.bean.LocalAppBean;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,9 +29,7 @@ public class AppView extends FrameLayout {
 
     private ViewPager2 mViewPager;
 
-    private List<App> mList;
-
-    private PackageManager mPackageManager;
+    private List<LocalAppBean> mList = ApplicationManager.getInstance().getLocalAppList();
 
     private AppViewPagerAdapter mAdapter;
 
@@ -54,7 +53,6 @@ public class AppView extends FrameLayout {
     private void initView(){
         rootView = LayoutInflater.from(getContext()).inflate(R.layout.app_view,this);
         mViewPager = rootView.findViewById(R.id.view_pager);
-        initData();
         mAdapter = new AppViewPagerAdapter(getContext(),mList,PAGE_NUM);
         mViewPager.setAdapter(mAdapter);
         mViewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
@@ -68,20 +66,4 @@ public class AppView extends FrameLayout {
         dotLayout = rootView.findViewById(R.id.dot_layout);
         dotLayout.init((int) Math.ceil(mList.size() / 16f));
     }
-
-    private void initData(){
-        mList = new ArrayList<>();
-        mPackageManager = getContext().getPackageManager();
-        Intent intent = new Intent();
-        intent.setAction(Intent.ACTION_MAIN);
-        intent.addCategory(Intent.CATEGORY_LAUNCHER);
-        List<ResolveInfo> resolveInfoList = getContext().getPackageManager().queryIntentActivities(intent, PackageManager.MATCH_ALL);
-        for (ResolveInfo resolveInfo : resolveInfoList) {
-            mList.add(new App(
-                    (String) resolveInfo.activityInfo.loadLabel(mPackageManager),
-                    resolveInfo.activityInfo.loadIcon(mPackageManager),
-                    resolveInfo.activityInfo.packageName));
-        }
-    }
-
 }

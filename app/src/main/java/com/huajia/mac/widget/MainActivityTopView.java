@@ -13,9 +13,15 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.hjq.permissions.OnPermissionCallback;
+import com.hjq.permissions.Permission;
+import com.hjq.permissions.XXPermissions;
+import com.huajia.mac.framework.window.WindowsRouter;
 import com.huajia.mac.framework.window.WindowsWant;
+import com.huajia.mac.utils.ToastUtils;
 import com.huajia.os.mac.R;
 import com.huajia.mac.service.application.music.MusicService;
 import com.huajia.mac.service.application.music.MusicServiceConstants;
@@ -27,6 +33,7 @@ import com.huajia.mac.view.MarqueeTextView;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -95,19 +102,34 @@ public class MainActivityTopView extends FrameLayout {
             @Override
             public void onClick(View view) {
                 Point coordinate = UIHelper.getViewLBottomCoordinate(wifiButton);
-                WindowsManager.getInstance().initWindow(new WindowsWant(WindowsConstants.WifiDialog, false, coordinate));
+                WindowsManager.getInstance().openWindow(new WindowsWant(WindowsRouter.WifiDialog, false, coordinate));
             }
         });
         volumeButton = findViewById(R.id.volume_button);
         volumeButton.setOnClickListener(view -> {
             Point coordinate = UIHelper.getViewLBottomCoordinate(volumeButton);
-            WindowsManager.getInstance().initWindow(new WindowsWant(WindowsConstants.VolumeDialog, false, coordinate));
+            WindowsManager.getInstance().openWindow(new WindowsWant(WindowsRouter.VolumeDialog, false, coordinate));
         });
 
         bluetoothButton = findViewById(R.id.bluetooth_button);
         bluetoothButton.setOnClickListener(view -> {
-            Point coordinate = UIHelper.getViewLBottomCoordinate(bluetoothButton);
-            WindowsManager.getInstance().initWindow(new WindowsWant(WindowsConstants.BluetoothDialog, false, coordinate));
+            XXPermissions.with(context)
+                    .permission(Permission.ACCESS_FINE_LOCATION, Permission.BLUETOOTH_SCAN, Permission.BLUETOOTH_CONNECT)
+                    .request(new OnPermissionCallback() {
+                        @Override
+                        public void onGranted(@NonNull List<String> permissions, boolean allGranted) {
+                            if (!allGranted) {
+                                return;
+                            }
+                            Point coordinate = UIHelper.getViewLBottomCoordinate(bluetoothButton);
+                            WindowsManager.getInstance().openWindow(new WindowsWant(WindowsRouter.BluetoothDialog, false, coordinate));
+                        }
+
+                        @Override
+                        public void onDenied(@NonNull List<String> permissions, boolean doNotAskAgain) {
+                            ToastUtils.show(context, "请打开蓝牙权限");
+                        }
+                    });
         });
         topMusicStop = rootView.findViewById(R.id.top_music_stop);
         topMusicStop.setOnClickListener( view -> {

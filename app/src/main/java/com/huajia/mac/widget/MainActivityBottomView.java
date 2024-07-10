@@ -12,12 +12,17 @@ import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.hjq.permissions.OnPermissionCallback;
 import com.hjq.permissions.Permission;
 import com.hjq.permissions.XXPermissions;
+import com.huajia.mac.framework.application.ApplicationManager;
 import com.huajia.mac.framework.window.WindowsWant;
 import com.huajia.mac.service.dialog.PermissionDialog;
+import com.huajia.mac.widget.adapter.BottomRecyclerviewAdapter;
 import com.huajia.os.mac.R;
 import com.huajia.mac.service.ui.desktop.AppDesktopActivity;
 import com.huajia.mac.framework.window.WindowsConstants;
@@ -40,21 +45,10 @@ public class MainActivityBottomView extends FrameLayout {
 
     private View rootView;
 
-    private View container;
+    private RecyclerView recyclerView;
 
-    private ImageView mMusicApp;
+    private BottomRecyclerviewAdapter adapter;
 
-    private ImageView mCameraApp;
-
-    private ImageView mAppDesktop;
-
-    private ImageView mAlbumApp;
-
-    private ImageView mDrawApp;
-
-    private ImageView mTangApp;
-
-    private ImageView mGuitarApp;
     public MainActivityBottomView(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         this.context = context;
@@ -63,57 +57,13 @@ public class MainActivityBottomView extends FrameLayout {
 
     private void initView() {
         rootView = LayoutInflater.from(context).inflate(R.layout.activity_main_bottom, this);
-        container = rootView.findViewById(R.id.bottom_container);
-        mMusicApp = rootView.findViewById(R.id.music_button);
-        mAppDesktop = rootView.findViewById(R.id.app_desktop_button);
-        mAlbumApp = rootView.findViewById(R.id.album_button);
-        mDrawApp = rootView.findViewById(R.id.draw_button);
-        mCameraApp = rootView.findViewById(R.id.camera_button);
-        mGuitarApp = rootView.findViewById(R.id.guitar_button);
-        mTangApp = rootView.findViewById(R.id.tang_poem_button);
 
-        mCameraApp.setOnClickListener((view) -> {
-            getCenterCoordinate(mCameraApp);
-            WindowsManager.getInstance().initWindow(new WindowsWant(WindowsConstants.CameraApplication));
-        });
-        mMusicApp.setOnClickListener(view -> {
-            getCenterCoordinate(mMusicApp);
-            WindowsManager.getInstance().initWindow(new WindowsWant(WindowsConstants.MusicApplication));
-        });
-        mAppDesktop.setOnClickListener(view -> {
-            Intent intent = new Intent(context, AppDesktopActivity.class);
-            context.startActivity(intent);
-        });
-        mAlbumApp.setOnClickListener(view -> {
-            WindowsManager.getInstance().initWindow(new WindowsWant(WindowsConstants.AlbumApplication));
-        });
-        mDrawApp.setOnClickListener(view -> {
-            WindowsManager.getInstance().initWindow(new WindowsWant(WindowsConstants.DrawApplication));
-        });
-        mGuitarApp.setOnClickListener(view -> {
-            XXPermissions.with(getContext())
-                    .permission(Permission.RECORD_AUDIO)
-                    .request(new OnPermissionCallback() {
-                        @Override
-                        public void onGranted(@NonNull List<String> permissions, boolean allGranted) {
-                            if (!allGranted) {
-                                return;
-                            }
-                            WindowsManager.getInstance().initWindow(new WindowsWant(WindowsConstants.GuitarApplication));
-                        }
-
-                        @Override
-                        public void onDenied(@NonNull List<String> permissions, boolean doNotAskAgain) {
-                            ToastUtils.show(getContext(), "请打开麦克风权限");
-                        }
-                    });
-        });
-        mTangApp.setOnClickListener(view -> {
-//            WindowsManager.getInstance().initWindow(WindowsConstants.TangPoemApplication);
-            HashMap<Object, Object> params = new HashMap<>();
-            params.put(PermissionDialog.PARAM_REASON, "使用相机需要申请 “ 相机权限 ”");
-            WindowsManager.getInstance().initWindow(new WindowsWant(WindowsConstants.PermissionDialog, false, null, params));
-        });
+        recyclerView = rootView.findViewById(R.id.recycler_view);
+        adapter = new BottomRecyclerviewAdapter(getContext(), ApplicationManager.getInstance().getAppList());
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(adapter.getTouchCallback());
+        itemTouchHelper.attachToRecyclerView(recyclerView);
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
     }
 
     @Override

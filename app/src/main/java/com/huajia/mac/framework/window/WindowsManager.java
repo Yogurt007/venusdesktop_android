@@ -1,7 +1,6 @@
 package com.huajia.mac.framework.window;
 
 import android.content.Context;
-import android.graphics.Point;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -32,7 +31,7 @@ public class WindowsManager {
     /**
      * 后台
      */
-    private final ConcurrentHashMap<String, BaseApplication> backgroundApplication = new ConcurrentHashMap<>();
+    private final ConcurrentHashMap<WindowsRouter, BaseApplication> backgroundApplication = new ConcurrentHashMap<>();
 
     private static WindowsManager instance;
 
@@ -70,10 +69,10 @@ public class WindowsManager {
      *
      * @param windowsWant 启动参数
      */
-    public void initWindow(WindowsWant windowsWant) {
+    public void openWindow(WindowsWant windowsWant) {
         Window window;
         BaseApplication application;
-        application = getApplication(windowsWant.getType(), windowsWant.getParams());
+        application = getApplication(windowsWant.getRouter(), windowsWant.getParams());
         //应用存活，不需要打开
         if (application == null){
             return;
@@ -104,19 +103,29 @@ public class WindowsManager {
         //设置app宽高
         window.setLayout(SizeUtils.getApplicationWidth(application),SizeUtils.getApplicationHeight(application));
         application.show();
-        backgroundApplication.put(windowsWant.getType(), application);
+        backgroundApplication.put(windowsWant.getRouter(), application);
+    }
+
+    /**
+     * 打开窗口
+     *
+     * @param windowsRouter 窗口路由
+     */
+    public void openWindow(WindowsRouter windowsRouter) {
+        this.openWindow(new WindowsWant(windowsRouter));
     }
 
     /**
      * 创建app实例
-     * @param type app类型
+     *
+     * @param router 路由
      * @return
      */
-    private BaseApplication getApplication(String type, HashMap<Object, Object> params) {
-        if (checkBackground(type)){
+    private BaseApplication getApplication(WindowsRouter router, HashMap<Object, Object> params) {
+        if (checkBackground(router)){
             return null;
         }
-        BaseApplication application = WindowsFactory.getWindow(context, type, params);
+        BaseApplication application = WindowsFactory.createWindow(context, router, params);
         return application;
     }
 
@@ -126,7 +135,7 @@ public class WindowsManager {
      * 不存活：重新打开应用
      * @return
      */
-    private boolean checkBackground(String type){
+    private boolean checkBackground(WindowsRouter type){
         if (!backgroundApplication.containsKey(type)){
             return false;
         }

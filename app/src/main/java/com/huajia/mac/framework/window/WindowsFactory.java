@@ -14,9 +14,11 @@ import com.huajia.mac.service.dialog.PermissionDialog;
 import com.huajia.mac.service.dialog.bluetooth.BluetoothDialog;
 import com.huajia.mac.service.dialog.VolumeDialog;
 import com.huajia.mac.service.dialog.wifi.WifiDialog;
+import com.huajia.os.mac.R;
 
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Objects;
+import java.util.List;
 
 /**
  * @Author: HuaJ1a
@@ -33,48 +35,48 @@ public class WindowsFactory {
      * 构造application对象
      *
      * @param context context
-     * @param type 类型
+     * @param router 路由
      * @param params 启动参数
      * @return
      */
-    public static BaseApplication getWindow(Context context, String type, HashMap<Object, Object> params) {
+    public static BaseApplication createWindow(Context context, WindowsRouter router, HashMap<Object, Object> params) {
         BaseApplication application = null;
-        switch (type){
-            case WindowsConstants.CameraApplication:
+        switch (router){
+            case CameraApplication:
                 application = new CameraApplication(context);
                 break;
-            case WindowsConstants.MusicApplication:
+            case MusicApplication:
                 application = new MusicApplication(context);
                 break;
-            case WindowsConstants.AlbumApplication:
+            case AlbumApplication:
                 application = new AlbumApplication(context);
                 break;
-            case WindowsConstants.DrawApplication:
+            case DrawApplication:
                 application = new DrawApplication(context);
                 break;
-            case WindowsConstants.GuitarApplication:
+            case GuitarApplication:
                 application = new GuitarApplication(context);
                 break;
-            case WindowsConstants.WifiDialog:
+            case WifiDialog:
                 application = new WifiDialog(context);
                 application.setSize(new Size(WindowsManager.getInstance().getMaxWidthApplication() / 3,
                         WindowsManager.getInstance().getMaxHeightApplication() / 2));
                 break;
-            case WindowsConstants.VolumeDialog:
+            case VolumeDialog:
                 application = new VolumeDialog(context);
                 application.setSize(new Size(WindowsManager.getInstance().getMaxWidthApplication() / 3,
                         WindowsManager.getInstance().getMaxHeightApplication() / 3));
                 break;
-            case WindowsConstants.BluetoothDialog:
+            case BluetoothDialog:
                 application = new BluetoothDialog(context);
                 application.setSize(new Size(WindowsManager.getInstance().getMaxWidthApplication() / 3,
                         WindowsManager.getInstance().getMaxHeightApplication() / 2));
                 break;
-            case WindowsConstants.TangPoemApplication:
+            case TangPoemApplication:
                 application = new TangPoemApplication(context);
                 application.setSize(new Size((int) (WindowsManager.getInstance().getMaxWidthApplication() / 1.5f),
                         WindowsManager.getInstance().getMaxHeightApplication()));
-            case WindowsConstants.PermissionDialog:
+            case PermissionDialog:
                 application = new PermissionDialog(context, params);
                 application.setSize(new Size((int) (WindowsManager.getInstance().getMaxWidthApplication() / 2.5f),
                         (int) (WindowsManager.getInstance().getMaxHeightApplication() / 1.5f)));

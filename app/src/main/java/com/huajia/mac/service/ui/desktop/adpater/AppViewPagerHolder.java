@@ -5,30 +5,33 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.huajia.os.mac.R;
-import com.huajia.mac.service.ui.desktop.bean.App;
+import com.huajia.mac.service.ui.desktop.bean.LocalAppBean;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class AppViewPagerHolder extends RecyclerView.ViewHolder {
-    private List<App> mList = new ArrayList<>();
+    private List<LocalAppBean> mList = new ArrayList<>();
 
-    private RecyclerView mRecylerView;
+    private RecyclerView mRecyclerView;
 
     private AppViewRecylerAdapter mAdapter;
 
     public AppViewPagerHolder(@NonNull View itemView, Context context) {
         super(itemView);
-        mRecylerView = itemView.findViewById(R.id.recycler_view);
+        mRecyclerView = itemView.findViewById(R.id.recycler_view);
         mAdapter = new AppViewRecylerAdapter(context,mList);
-        mRecylerView.setAdapter(mAdapter);
-        mRecylerView.setLayoutManager(new GridLayoutManager(context,5));
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(mAdapter.getTouchCallback());
+        itemTouchHelper.attachToRecyclerView(mRecyclerView);
+        mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.setLayoutManager(new GridLayoutManager(context,5));
     }
 
-    public void setData(List<App> list){
+    public void setData(List<LocalAppBean> list){
         mAdapter.refreshData(list);
     }
 }
