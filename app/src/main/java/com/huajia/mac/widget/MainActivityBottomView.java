@@ -16,21 +16,9 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.hjq.permissions.OnPermissionCallback;
-import com.hjq.permissions.Permission;
-import com.hjq.permissions.XXPermissions;
 import com.huajia.mac.framework.application.ApplicationManager;
-import com.huajia.mac.framework.window.WindowsWant;
-import com.huajia.mac.service.dialog.PermissionDialog;
 import com.huajia.mac.widget.adapter.BottomRecyclerviewAdapter;
 import com.huajia.os.mac.R;
-import com.huajia.mac.service.ui.desktop.AppDesktopActivity;
-import com.huajia.mac.framework.window.WindowsConstants;
-import com.huajia.mac.framework.window.WindowsManager;
-import com.huajia.mac.utils.ToastUtils;
-
-import java.util.HashMap;
-import java.util.List;
 
 /**
  * @Author: HuaJ1a

@@ -10,7 +10,9 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
+import com.huajia.annotation.Route;
 import com.huajia.mac.base.BaseApplication;
+import com.huajia.mac.framework.router.TRouterPath;
 import com.huajia.os.mac.R;
 
 import java.util.HashMap;
@@ -21,6 +23,7 @@ import java.util.HashMap;
  * @Date: 2024/5/13
  * @Description: 申请权限dialog
  */
+@Route(path = TRouterPath.MUSIC, heightPercent = 1)
 public class PermissionDialog extends BaseApplication {
     private static final String TAG = "PermissionDialog";
 
@@ -30,10 +33,10 @@ public class PermissionDialog extends BaseApplication {
 
     private Button btnOpen;
 
-    public PermissionDialog(@NonNull Context context, HashMap<Object, Object> params) {
+    public PermissionDialog(@NonNull Context context) {
         super(context);
         initView();
-        initData(params);
+//        initData(params);
     }
 
     private void initView() {

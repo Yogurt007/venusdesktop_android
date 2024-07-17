@@ -9,6 +9,8 @@ import android.widget.SeekBar;
 
 import androidx.annotation.NonNull;
 
+import com.huajia.annotation.Route;
+import com.huajia.mac.framework.router.TRouterPath;
 import com.huajia.os.mac.R;
 import com.huajia.mac.base.BaseApplication;
 
@@ -18,6 +20,7 @@ import com.huajia.mac.base.BaseApplication;
  * @Date: 2024/3/8
  * @Description:
  */
+@Route(path = TRouterPath.DIALOG_VOLUME, widthPercent = 0.33f, heightPercent = 0.33f)
 public class VolumeDialog extends BaseApplication {
     private static final String ACTION_VOLUME = "android.media.VOLUME_CHANGED_ACTION";
 

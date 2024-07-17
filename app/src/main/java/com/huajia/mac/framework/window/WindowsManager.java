@@ -9,6 +9,7 @@ import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
+import com.huajia.mac.framework.router.TRouter;
 import com.huajia.os.mac.R;
 import com.huajia.mac.base.BaseApplication;
 import com.huajia.mac.utils.SizeUtils;
@@ -31,7 +32,7 @@ public class WindowsManager {
     /**
      * 后台
      */
-    private final ConcurrentHashMap<WindowsRouter, BaseApplication> backgroundApplication = new ConcurrentHashMap<>();
+    private final ConcurrentHashMap<String, BaseApplication> windowStack = new ConcurrentHashMap<>();
 
     private static WindowsManager instance;
 
@@ -65,81 +66,56 @@ public class WindowsManager {
     }
 
     /**
-     * 初始化window
+     * 打开窗口
      *
-     * @param windowsWant 启动参数
+     * @param builder 参数
+     * @param application 需要打开窗口的app
      */
-    public void openWindow(WindowsWant windowsWant) {
-        Window window;
-        BaseApplication application;
-        application = getApplication(windowsWant.getRouter(), windowsWant.getParams());
-        //应用存活，不需要打开
-        if (application == null){
+    public void openWindow(TRouter.TRouterBuilder builder, BaseApplication application) {
+        if (checkAlive(builder.getRouterPath())) {
+            Log.i(TAG, "window is open, not continue open");
             return;
         }
-        window = application.getWindow();
+        Window window = application.getWindow();
         WindowManager.LayoutParams layoutParams = window.getAttributes();
-        if (windowsWant.getCoordinate() != null) {
+        if (builder.getCoordinate() != null) {
             // 需要指定坐标的弹窗
             layoutParams.gravity = Gravity.LEFT | Gravity.TOP;
-            layoutParams.x = windowsWant.getCoordinate().x;
+            layoutParams.x = builder.getCoordinate().x;
             layoutParams.y = WindowsManager.getInstance().getTopHeight();
             layoutParams.windowAnimations = R.style.DialogOpenAndCloseAnim;
             // 背景透明
             layoutParams.dimAmount = 0f;
-        } else if (!windowsWant.isMove() && windowsWant.getCoordinate() == null) {
+        } else if (!builder.isAllowMove() && builder.getCoordinate() == null) {
             // 提示弹窗： 1、居中 2、不需要移动
             layoutParams.gravity = Gravity.CENTER;
             layoutParams.windowAnimations = R.style.AppOpenAndCloseAnim;
         } else {
-            // app类型
             layoutParams.gravity = Gravity.CENTER | Gravity.TOP;
             layoutParams.y = topHeight + WindowsConstants.APP_MARGIN / 2;
+            // 开关过度动画
             layoutParams.windowAnimations = R.style.AppOpenAndCloseAnim;
+            // 给window设置点击事件
             window.getDecorView().setOnTouchListener(new WindowsOnTouchListener(window,application,layoutParams,layoutParams.x, layoutParams.y));
         }
         window.setAttributes(layoutParams);
         window.setBackgroundDrawableResource(android.R.color.transparent);
-        //设置app宽高
-        window.setLayout(SizeUtils.getApplicationWidth(application),SizeUtils.getApplicationHeight(application));
+        window.setLayout(application.getSize().getWidth(), application.getSize().getHeight());
         application.show();
-        backgroundApplication.put(windowsWant.getRouter(), application);
+        windowStack.put(builder.getRouterPath(), application);
     }
 
     /**
-     * 打开窗口
+     * 检查app是否存货
      *
-     * @param windowsRouter 窗口路由
+     * @param routerPath 路由路径
+     * @return true: 存活； false: 不存活
      */
-    public void openWindow(WindowsRouter windowsRouter) {
-        this.openWindow(new WindowsWant(windowsRouter));
-    }
-
-    /**
-     * 创建app实例
-     *
-     * @param router 路由
-     * @return
-     */
-    private BaseApplication getApplication(WindowsRouter router, HashMap<Object, Object> params) {
-        if (checkBackground(router)){
-            return null;
-        }
-        BaseApplication application = WindowsFactory.createWindow(context, router, params);
-        return application;
-    }
-
-    /**
-     * 检查后台是否存活
-     * 存活：动画提示
-     * 不存活：重新打开应用
-     * @return
-     */
-    private boolean checkBackground(WindowsRouter type){
-        if (!backgroundApplication.containsKey(type)){
+    private boolean checkAlive(String routerPath){
+        if (!windowStack.containsKey(routerPath)){
             return false;
         }
-        BaseApplication application = backgroundApplication.get(type);
+        BaseApplication application = windowStack.get(routerPath);
         if (application == null){
             return false;
         }
@@ -154,7 +130,7 @@ public class WindowsManager {
             ToastUtils.show(context,"应用已打开", true);
             return true;
         }
-        backgroundApplication.remove(type);
+        windowStack.remove(routerPath);
         return false;
     }
 

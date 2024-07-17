@@ -14,6 +14,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.github.chrisbanes.photoview.PhotoView;
 import com.google.gson.Gson;
+import com.huajia.annotation.Route;
+import com.huajia.mac.framework.router.TRouterPath;
 import com.huajia.mac.framework.eventbus.EventBusConstants;
 import com.huajia.mac.framework.eventbus.MessageEvent;
 import com.huajia.os.mac.R;
@@ -31,6 +33,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
+@Route(path = TRouterPath.ALBUM, heightPercent = 1)
 public class AlbumApplication extends BaseApplication {
     private static final String TAG = "AlbumApplication";
 

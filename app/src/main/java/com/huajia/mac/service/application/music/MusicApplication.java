@@ -17,6 +17,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.huajia.annotation.Route;
+import com.huajia.mac.framework.router.TRouterPath;
 import com.huajia.mac.service.application.music.adapter.MusicAdapter;
 import com.huajia.mac.service.application.music.bean.MusicBean;
 import com.huajia.mac.service.application.music.view.CircularProgressBar;
@@ -25,6 +27,7 @@ import com.huajia.mac.base.BaseApplication;
 
 import java.util.List;
 
+@Route(path = TRouterPath.MUSIC, heightPercent = 1)
 public class MusicApplication extends BaseApplication {
     private static final String TAG = "MusicApplication";
 

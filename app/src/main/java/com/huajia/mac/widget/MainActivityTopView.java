@@ -19,16 +19,14 @@ import androidx.annotation.Nullable;
 import com.hjq.permissions.OnPermissionCallback;
 import com.hjq.permissions.Permission;
 import com.hjq.permissions.XXPermissions;
-import com.huajia.mac.framework.window.WindowsRouter;
-import com.huajia.mac.framework.window.WindowsWant;
+import com.huajia.mac.framework.router.TRouter;
+import com.huajia.mac.framework.router.TRouterPath;
 import com.huajia.mac.utils.ToastUtils;
 import com.huajia.os.mac.R;
 import com.huajia.mac.service.application.music.MusicService;
 import com.huajia.mac.service.application.music.MusicServiceConstants;
 import com.huajia.mac.utils.TextUtils;
 import com.huajia.mac.utils.UIHelper;
-import com.huajia.mac.framework.window.WindowsConstants;
-import com.huajia.mac.framework.window.WindowsManager;
 import com.huajia.mac.view.MarqueeTextView;
 
 import java.text.SimpleDateFormat;
@@ -98,17 +96,18 @@ public class MainActivityTopView extends FrameLayout {
         topMusicLayout = rootView.findViewById(R.id.top_music);
         songNameView = rootView.findViewById(R.id.top_music_song_name);
         wifiButton = findViewById(R.id.wifi_button);
-        wifiButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Point coordinate = UIHelper.getViewLBottomCoordinate(wifiButton);
-                WindowsManager.getInstance().openWindow(new WindowsWant(WindowsRouter.WifiDialog, false, coordinate));
-            }
+        wifiButton.setOnClickListener(view -> {
+            TRouter.getInstance().build(TRouterPath.DIALOG_WIFI)
+                    .withCoordinate(UIHelper.getViewLBottomCoordinate(wifiButton))
+                    .withMove(false)
+                    .navigation();
         });
         volumeButton = findViewById(R.id.volume_button);
         volumeButton.setOnClickListener(view -> {
-            Point coordinate = UIHelper.getViewLBottomCoordinate(volumeButton);
-            WindowsManager.getInstance().openWindow(new WindowsWant(WindowsRouter.VolumeDialog, false, coordinate));
+            TRouter.getInstance().build(TRouterPath.DIALOG_VOLUME)
+                    .withCoordinate(UIHelper.getViewLBottomCoordinate(volumeButton))
+                    .withMove(false)
+                    .navigation();
         });
 
         bluetoothButton = findViewById(R.id.bluetooth_button);
@@ -121,8 +120,10 @@ public class MainActivityTopView extends FrameLayout {
                             if (!allGranted) {
                                 return;
                             }
-                            Point coordinate = UIHelper.getViewLBottomCoordinate(bluetoothButton);
-                            WindowsManager.getInstance().openWindow(new WindowsWant(WindowsRouter.BluetoothDialog, false, coordinate));
+                            TRouter.getInstance().build(TRouterPath.DIALOG_BLUETOOTH)
+                                    .withCoordinate(UIHelper.getViewLBottomCoordinate(bluetoothButton))
+                                    .withMove(false)
+                                    .navigation();
                         }
 
                         @Override

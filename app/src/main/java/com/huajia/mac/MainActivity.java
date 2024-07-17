@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.annotation.Nullable;
 
 import com.huajia.mac.base.BaseActivity;
+import com.huajia.mac.framework.router.TRouter;
 import com.huajia.mac.framework.service.KeepLiveService;
 import com.huajia.mac.framework.storage.SharedPreferencesManager;
 import com.huajia.mac.framework.window.WindowsManager;
@@ -30,6 +31,8 @@ public class MainActivity extends BaseActivity {
     private void init() {
         // sp初始化
         SharedPreferencesManager.getInstance().init(getApplicationContext());
+        // 路由管理类
+        TRouter.getInstance().init(MainActivity.this);
         // app管理类
         WindowsManager.getInstance().init(MainActivity.this);
         // 保活服务

@@ -1,7 +1,5 @@
 package com.huajia.mac.framework.application;
 
-import static com.huajia.mac.framework.window.WindowsRouter.CameraApplication;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -12,11 +10,9 @@ import androidx.annotation.NonNull;
 import com.hjq.permissions.OnPermissionCallback;
 import com.hjq.permissions.Permission;
 import com.hjq.permissions.XXPermissions;
+import com.huajia.mac.framework.router.TRouter;
+import com.huajia.mac.framework.router.TRouterPath;
 import com.huajia.mac.framework.task.TaskQueue;
-import com.huajia.mac.framework.window.WindowsConstants;
-import com.huajia.mac.framework.window.WindowsManager;
-import com.huajia.mac.framework.window.WindowsRouter;
-import com.huajia.mac.framework.window.WindowsWant;
 import com.huajia.mac.service.ui.desktop.AppDesktopActivity;
 import com.huajia.mac.service.ui.desktop.bean.LocalAppBean;
 import com.huajia.mac.utils.ToastUtils;
@@ -54,13 +50,27 @@ public class ApplicationManager {
 
     public void init(Context context) {
         // 预置应用
-        appList.add(new ApplicationBean(ApplicationConstants.TYPE_APP_LOCAL, context.getDrawable(R.drawable.icon_app_desktop), WindowsRouter.AppDesktop));
-        appList.add(new ApplicationBean(ApplicationConstants.TYPE_APP_LOCAL, context.getDrawable(R.drawable.icon_camera), CameraApplication));
-        appList.add(new ApplicationBean(ApplicationConstants.TYPE_APP_LOCAL, context.getDrawable(R.drawable.icon_music), WindowsRouter.MusicApplication));
-        appList.add(new ApplicationBean(ApplicationConstants.TYPE_APP_LOCAL, context.getDrawable(R.drawable.icon_album), WindowsRouter.AlbumApplication));
-        appList.add(new ApplicationBean(ApplicationConstants.TYPE_APP_LOCAL, context.getDrawable(R.drawable.icon_draw), WindowsRouter.DrawApplication));
-        appList.add(new ApplicationBean(ApplicationConstants.TYPE_APP_LOCAL, context.getDrawable(R.drawable.icon_guitar), WindowsRouter.GuitarApplication));
-        appList.add(new ApplicationBean(ApplicationConstants.TYPE_APP_LOCAL, context.getDrawable(R.drawable.icon_tang_poem), WindowsRouter.TangPoemApplication));
+        appList.add(
+                new ApplicationBean(ApplicationConstants.TYPE_APP_LOCAL,
+                        context.getDrawable(R.drawable.icon_app_desktop), TRouterPath.DESKTOP));
+        appList.add(
+                new ApplicationBean(ApplicationConstants.TYPE_APP_LOCAL,
+                        context.getDrawable(R.drawable.icon_camera), TRouterPath.CAMERA));
+        appList.add(
+                new ApplicationBean(ApplicationConstants.TYPE_APP_LOCAL,
+                        context.getDrawable(R.drawable.icon_music), TRouterPath.MUSIC));
+        appList.add(
+                new ApplicationBean(ApplicationConstants.TYPE_APP_LOCAL,
+                        context.getDrawable(R.drawable.icon_album), TRouterPath.ALBUM));
+        appList.add(
+                new ApplicationBean(ApplicationConstants.TYPE_APP_LOCAL,
+                        context.getDrawable(R.drawable.icon_draw), TRouterPath.DRAW));
+        appList.add(
+                new ApplicationBean(ApplicationConstants.TYPE_APP_LOCAL,
+                        context.getDrawable(R.drawable.icon_guitar), TRouterPath.GUITAR));
+        appList.add(
+                new ApplicationBean(ApplicationConstants.TYPE_APP_LOCAL,
+                        context.getDrawable(R.drawable.icon_tang_poem), TRouterPath.TANGPOEM));
 
         // 获取本地应用列表
         TaskQueue.dispatch(new Runnable() {
@@ -86,13 +96,13 @@ public class ApplicationManager {
     }
 
     public void openApplication(Context context, ApplicationBean applicationBean) {
-        WindowsRouter router = applicationBean.getRouter();
-        switch (router) {
-            case AppDesktop:
+        String routerPath = applicationBean.getRouterPath();
+        switch (routerPath) {
+            case TRouterPath.DESKTOP:
                 Intent intent = new Intent(context, AppDesktopActivity.class);
                 context.startActivity(intent);
                 break;
-            case CameraApplication:
+            case TRouterPath.CAMERA:
                 XXPermissions.with(context)
                         .permission(Permission.CAMERA)
                         .request(new OnPermissionCallback() {
@@ -101,7 +111,7 @@ public class ApplicationManager {
                                 if (!allGranted) {
                                     return;
                                 }
-                                WindowsManager.getInstance().openWindow(WindowsRouter.CameraApplication);
+                                TRouter.getInstance().build(TRouterPath.CAMERA).navigation();
                             }
 
                             @Override
@@ -110,16 +120,16 @@ public class ApplicationManager {
                             }
                         });
                 break;
-            case MusicApplication:
-                WindowsManager.getInstance().openWindow(WindowsRouter.MusicApplication);
+            case TRouterPath.MUSIC:
+                TRouter.getInstance().build(TRouterPath.MUSIC).navigation();
                 break;
-            case AlbumApplication:
-                WindowsManager.getInstance().openWindow(WindowsRouter.AlbumApplication);
+            case TRouterPath.ALBUM:
+                TRouter.getInstance().build(TRouterPath.ALBUM).navigation();
                 break;
-            case DrawApplication:
-                WindowsManager.getInstance().openWindow(WindowsRouter.DrawApplication);
+            case TRouterPath.DRAW:
+                TRouter.getInstance().build(TRouterPath.DRAW).navigation();
                 break;
-            case GuitarApplication:
+            case TRouterPath.GUITAR:
                 XXPermissions.with(context)
                         .permission(Permission.RECORD_AUDIO)
                         .request(new OnPermissionCallback() {
@@ -128,7 +138,7 @@ public class ApplicationManager {
                                 if (!allGranted) {
                                     return;
                                 }
-                                WindowsManager.getInstance().openWindow(WindowsRouter.GuitarApplication);
+                                TRouter.getInstance().build(TRouterPath.GUITAR).navigation();
                             }
 
                             @Override
@@ -137,8 +147,8 @@ public class ApplicationManager {
                             }
                         });
                 break;
-            case TangPoemApplication:
-                WindowsManager.getInstance().openWindow(WindowsRouter.TangPoemApplication);
+            case TRouterPath.TANGPOEM:
+                TRouter.getInstance().build(TRouterPath.TANGPOEM).navigation();
                 break;
         }
     }

@@ -12,6 +12,8 @@ import androidx.camera.view.PreviewView;
 import androidx.lifecycle.LifecycleOwner;
 
 import com.google.android.material.tabs.TabLayout;
+import com.huajia.annotation.Route;
+import com.huajia.mac.framework.router.TRouterPath;
 import com.huajia.mac.utils.PermissionHelper;
 import com.huajia.mac.utils.TimeUtils;
 import com.huajia.os.mac.R;
@@ -22,6 +24,7 @@ import com.huajia.mac.base.BaseApplication;
  * @date: 2023/9/12 22:11
  */
 
+@Route(path = TRouterPath.CAMERA, heightPercent = 1)
 public class CameraApplication extends BaseApplication {
     private static final String TAG = "CameraApplication";
 

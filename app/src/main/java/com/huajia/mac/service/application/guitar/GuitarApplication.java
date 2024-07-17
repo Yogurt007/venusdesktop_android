@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
+import com.huajia.annotation.Route;
+import com.huajia.mac.framework.router.TRouterPath;
 import com.huajia.os.mac.R;
 import com.huajia.mac.base.BaseApplication;
 
@@ -27,6 +29,7 @@ import be.tarsos.dsp.pitch.PitchProcessor;
  * @Date: 2024/3/3
  * @Description:
  */
+@Route(path = TRouterPath.GUITAR, heightPercent = 1)
 public class GuitarApplication extends BaseApplication implements View.OnClickListener {
     private static final String TAG = "GuitarApplication";
 

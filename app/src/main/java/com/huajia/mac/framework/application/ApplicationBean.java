@@ -2,8 +2,6 @@ package com.huajia.mac.framework.application;
 
 import android.graphics.drawable.Drawable;
 
-import com.huajia.mac.framework.window.WindowsRouter;
-
 /**
  * Description: 应用bean
  * Author: HuaJ1a
@@ -29,12 +27,12 @@ public class ApplicationBean {
     /**
      * 路由,用于连接application和window
      */
-    private WindowsRouter router;
+    private String routerPath;
 
-    public ApplicationBean(String type, Drawable icon, WindowsRouter router) {
+    public ApplicationBean(String type, Drawable icon, String routerPath) {
         this.type = type;
         this.icon = icon;
-        this.router = router;
+        this.routerPath = routerPath;
     }
 
     public String getType() {
@@ -61,11 +59,11 @@ public class ApplicationBean {
         this.packageName = packageName;
     }
 
-    public WindowsRouter getRouter() {
-        return router;
+    public String getRouterPath() {
+        return routerPath;
     }
 
-    public void setRouter(WindowsRouter router) {
-        this.router = router;
+    public void setRouterPath(String routerPath) {
+        this.routerPath = routerPath;
     }
 }

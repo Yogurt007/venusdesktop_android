@@ -7,6 +7,8 @@ import androidx.annotation.NonNull;
 
 import com.github.barteksc.pdfviewer.PDFView;
 import com.github.barteksc.pdfviewer.listener.OnPageChangeListener;
+import com.huajia.annotation.Route;
+import com.huajia.mac.framework.router.TRouterPath;
 import com.huajia.mac.framework.storage.SharedPreferencesConstants;
 import com.huajia.mac.framework.storage.SharedPreferencesManager;
 import com.huajia.mac.service.application.camera.RoundedCornerOutlineProvider;
@@ -19,6 +21,7 @@ import com.huajia.mac.base.BaseApplication;
  * @Date: 2024/4/7
  * @Description:
  */
+@Route(path = TRouterPath.TANGPOEM, heightPercent = 1)
 public class TangPoemApplication extends BaseApplication {
     private static final String TAG = "TangPoemApplication";
 

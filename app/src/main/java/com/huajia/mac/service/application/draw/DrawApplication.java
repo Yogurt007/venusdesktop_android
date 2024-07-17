@@ -7,10 +7,13 @@ import android.widget.SeekBar;
 
 import androidx.annotation.NonNull;
 
+import com.huajia.annotation.Route;
+import com.huajia.mac.framework.router.TRouterPath;
 import com.huajia.os.mac.R;
 import com.huajia.mac.base.BaseApplication;
 import com.huajia.mac.service.application.draw.view.DrawBoardView;
 
+@Route(path = TRouterPath.DRAW, heightPercent = 1)
 public class DrawApplication extends BaseApplication {
     private static final String TAG = "DrawApplication";
 

@@ -30,3 +30,5 @@ dependencyResolutionManagement {
 }
 rootProject.name = "MAC"
 include ':app'
+include ':route-annotation'
+include ':route-compiler'

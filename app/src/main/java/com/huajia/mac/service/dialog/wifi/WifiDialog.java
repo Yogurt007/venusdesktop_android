@@ -10,6 +10,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.huajia.annotation.Route;
+import com.huajia.mac.framework.router.TRouterPath;
 import com.huajia.os.mac.R;
 import com.huajia.mac.base.BaseApplication;
 import com.huajia.mac.utils.PermissionHelper;
@@ -22,6 +24,7 @@ import java.util.List;
  * @Date: 2024/3/5
  * @Description:
  */
+@Route(path = TRouterPath.DIALOG_WIFI, widthPercent = 0.33f)
 public class WifiDialog extends BaseApplication {
     private static final String TAG = "WifiDialog";
 

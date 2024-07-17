@@ -26,7 +26,7 @@ public class SizeUtils {
      * @param application app
      * @return 宽度
      */
-    public static int getApplicationWidth(BaseApplication application){
+    public static int   getApplicationWidth(BaseApplication application){
         if (application == null || application.getSize() == null){
             return DEFAULT_WIDTH_APP;
         }
