@@ -21,7 +21,7 @@ import com.hjq.permissions.Permission;
 import com.hjq.permissions.XXPermissions;
 import com.huajia.mac.framework.router.TRouter;
 import com.huajia.mac.framework.router.TRouterPath;
-import com.huajia.mac.utils.ToastUtils;
+import com.huajia.mac.service.dialog.PermissionDialog;
 import com.huajia.os.mac.R;
 import com.huajia.mac.service.application.music.MusicService;
 import com.huajia.mac.service.application.music.MusicServiceConstants;
@@ -128,7 +128,7 @@ public class MainActivityTopView extends FrameLayout {
 
                         @Override
                         public void onDenied(@NonNull List<String> permissions, boolean doNotAskAgain) {
-                            ToastUtils.show(context, "请打开蓝牙权限");
+                            PermissionDialog.jumpToPermissionDialog("使用蓝牙需要开通 “蓝牙” “位置” 权限");
                         }
                     });
         });

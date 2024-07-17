@@ -7,7 +7,7 @@ import android.util.Size;
 
 import androidx.annotation.NonNull;
 
-import java.util.HashMap;
+import com.huajia.mac.framework.router.TRouterProtocol;
 
 /**
  * @author: huajia
@@ -16,16 +16,16 @@ import java.util.HashMap;
 
 public abstract class BaseApplication extends Dialog {
     //app的尺寸
-    private Size mSize;
+    protected Size mSize;
 
     // 数据传递
-    private HashMap<String, Object> protocol;
+    protected TRouterProtocol protocol;
 
     public BaseApplication(@NonNull Context context) {
         super(context);
     }
 
-    public BaseApplication(Context context, HashMap<String, Object> protocol) {
+    public BaseApplication(Context context, TRouterProtocol protocol) {
         super(context);
         this.protocol = protocol;
     }

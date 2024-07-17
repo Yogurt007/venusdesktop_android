@@ -22,6 +22,7 @@ public class TRouterPath {
     public static final String DIALOG_WIFI = "/dialog/WifiDialog";
     public static final String DIALOG_BLUETOOTH = "/dialog/BlueToothDialog";
     public static final String DIALOG_VOLUME = "/dialog/VolumeDialog";
+    public static final String DIALOG_PERMISSION = "/dialog/PermissionDialog";
 
 
 }

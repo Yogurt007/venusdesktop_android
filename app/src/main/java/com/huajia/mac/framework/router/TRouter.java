@@ -69,6 +69,17 @@ public class TRouter {
         return this;
     }
 
+    public TRouter withProtocol(String key, Object value) {
+        if (this.builder == null) {
+            throw new RuntimeException("TRouter: builder is null");
+        }
+        if (this.builder.protocol == null) {
+            this.builder.protocol = new TRouterProtocol();
+        }
+        this.builder.protocol.put(key, value);
+        return this;
+    }
+
     public void navigation() {
         if (builder == null) {
             Log.i(TAG, "builder is null");
@@ -84,8 +95,15 @@ public class TRouter {
         try {
             // 反射创建application对象，实现解耦
             Class<?> applicationClass = Class.forName(String.format("%s.%s", packageName, className));
-            Constructor<?> constructor = applicationClass.getConstructor(Context.class);
-            Object object = constructor.newInstance(this.context);
+            Object object = null;
+            if (this.builder.protocol == null) {
+                Constructor<?> constructor = applicationClass.getConstructor(Context.class);
+                object = constructor.newInstance(this.context);
+            } else {
+                Constructor<?> constructor = applicationClass.getConstructor(Context.class, TRouterProtocol.class);
+                object = constructor.newInstance(this.context, this.builder.protocol);
+            }
+
             if (!(object instanceof BaseApplication)) {
                 Log.i(TAG, "object not instanceof BaseApplication,name :" + object.getClass().getName());
                 return;
@@ -118,6 +136,11 @@ public class TRouter {
          * 左上角坐标
          */
         private Point coordinate;
+
+        /**
+         * 协议
+         */
+        private TRouterProtocol protocol;
 
         public String getRouterPath() {
             return routerPath;

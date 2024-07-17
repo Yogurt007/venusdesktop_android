@@ -12,7 +12,9 @@ import androidx.annotation.NonNull;
 
 import com.huajia.annotation.Route;
 import com.huajia.mac.base.BaseApplication;
+import com.huajia.mac.framework.router.TRouter;
 import com.huajia.mac.framework.router.TRouterPath;
+import com.huajia.mac.framework.router.TRouterProtocol;
 import com.huajia.os.mac.R;
 
 import java.util.HashMap;
@@ -23,25 +25,33 @@ import java.util.HashMap;
  * @Date: 2024/5/13
  * @Description: 申请权限dialog
  */
-@Route(path = TRouterPath.MUSIC, heightPercent = 1)
+@Route(path = TRouterPath.DIALOG_PERMISSION, heightPercent = 0.66f)
 public class PermissionDialog extends BaseApplication {
     private static final String TAG = "PermissionDialog";
 
-    public static final String PARAM_REASON = "param_reason";
+    public static final String PROTOCOL_REASON = "protocol_reason";
 
     private TextView tvReason;
 
     private Button btnOpen;
 
-    public PermissionDialog(@NonNull Context context) {
+    public static void jumpToPermissionDialog(String reason) {
+        TRouter.getInstance().build(TRouterPath.DIALOG_PERMISSION)
+                .withMove(false)
+                .withProtocol(PROTOCOL_REASON, reason)
+                .navigation();
+    }
+
+    public PermissionDialog(@NonNull Context context, TRouterProtocol protocol) {
         super(context);
+        this.protocol = protocol;
         initView();
-//        initData(params);
     }
 
     private void initView() {
         setContentView(R.layout.dialog_permission);
         tvReason = findViewById(R.id.tv_reason);
+        tvReason.setText(this.protocol.get(PROTOCOL_REASON, "使用该功能需要申请权限").toString());
         btnOpen = findViewById(R.id.btn_open_permission);
         btnOpen.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,13 +64,6 @@ public class PermissionDialog extends BaseApplication {
                 getContext().startActivity(intent);
             }
         });
-    }
-
-    private void initData(HashMap<Object, Object> params) {
-        if (params != null) {
-            String reason = (String) params.get(PARAM_REASON);
-            tvReason.setText(reason);
-        }
     }
 
 }

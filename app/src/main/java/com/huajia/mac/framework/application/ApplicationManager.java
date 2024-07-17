@@ -13,9 +13,9 @@ import com.hjq.permissions.XXPermissions;
 import com.huajia.mac.framework.router.TRouter;
 import com.huajia.mac.framework.router.TRouterPath;
 import com.huajia.mac.framework.task.TaskQueue;
+import com.huajia.mac.service.dialog.PermissionDialog;
 import com.huajia.mac.service.ui.desktop.AppDesktopActivity;
 import com.huajia.mac.service.ui.desktop.bean.LocalAppBean;
-import com.huajia.mac.utils.ToastUtils;
 import com.huajia.os.mac.R;
 
 import java.util.ArrayList;
@@ -116,7 +116,7 @@ public class ApplicationManager {
 
                             @Override
                             public void onDenied(@NonNull List<String> permissions, boolean doNotAskAgain) {
-                                ToastUtils.show(context, "请打开照相机权限");
+                                PermissionDialog.jumpToPermissionDialog("使用相机需要开通 “照相机” 权限");
                             }
                         });
                 break;
@@ -143,12 +143,13 @@ public class ApplicationManager {
 
                             @Override
                             public void onDenied(@NonNull List<String> permissions, boolean doNotAskAgain) {
-                                ToastUtils.show(context, "请打开麦克风权限");
+                                PermissionDialog.jumpToPermissionDialog("使用吉他调音器需要开通 “麦克风” 权限");
                             }
                         });
                 break;
             case TRouterPath.TANGPOEM:
-                TRouter.getInstance().build(TRouterPath.TANGPOEM).navigation();
+                TRouter.getInstance().build(TRouterPath.TANGPOEM)
+                        .navigation();
                 break;
         }
     }
