@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.huajia.mac.UIMainActivity"
+    tools:context="com.huajia.venusdesktop.UIMainActivity"
     android:background="@drawable/macos">
 
     <FrameLayout
@@ -12,11 +12,11 @@
         android:layout_height="match_parent"
         android:id="@+id/main_container">
 
-        <com.huajia.mac.widget.MainActivityTopView
+        <com.huajia.venusdesktop.widget.MainActivityTopView
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
 
-        <com.huajia.mac.widget.MainActivityBottomView
+        <com.huajia.venusdesktop.widget.MainActivityBottomView
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
 

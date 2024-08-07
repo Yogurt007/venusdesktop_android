@@ -3,11 +3,11 @@ plugins {
 }
 
 android {
-    namespace 'com.huajia.os.mac'
+    namespace 'com.huajia.venusdesktop'
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.huajia.os.mac"
+        applicationId "com.huajia.venusdesktop"
         minSdk 29
         targetSdk 33
         versionCode 1

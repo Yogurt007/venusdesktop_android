@@ -44,7 +44,7 @@
                     android:layout_height="0dp"
                     android:layout_weight="3">
 
-                    <com.huajia.mac.service.application.music.view.CircularProgressBar
+                    <com.huajia.venusdesktop.service.application.music.view.CircularProgressBar
                         android:id="@+id/progress_bar"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent" />

@@ -57,7 +57,7 @@
                     android:layout_height="20dp"
                     android:background="@drawable/bar_close"/>
 
-                <com.huajia.mac.view.MarqueeTextView
+                <com.huajia.venusdesktop.view.MarqueeTextView
                     android:id="@+id/top_music_song_name"
                     android:layout_width="80dp"
                     android:layout_height="wrap_content"

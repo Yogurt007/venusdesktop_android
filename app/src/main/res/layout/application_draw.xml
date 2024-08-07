@@ -59,7 +59,7 @@
 
 
 
-<!--            <com.huajia.os.mac.application.draw.view.DrawBoardView-->
+<!--            <com.huajia.venusdesktop.application.draw.view.DrawBoardView-->
 <!--                android:id="@+id/draw_board_view"-->
 <!--                android:layout_width="match_parent"-->
 <!--                android:layout_height="match_parent"/>-->

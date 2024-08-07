@@ -66,7 +66,7 @@ public class RouteProcessor extends AbstractProcessor {
             // 创建文件
             JavaFileObject sourceFile = filer.createSourceFile("RouterMap");
             writer = sourceFile.openWriter();
-            writer.write(String.format("package %s;\n", "com.huajia.mac"));
+            writer.write(String.format("package %s;\n", "com.huajia.venusdesktop"));
             writer.write(String.format("import java.util.Map;\n"));
             writer.write(String.format("import java.util.concurrent.ConcurrentHashMap;\n"));
             writer.write(String.format("import com.huajia.annotation.RouteMeta;\n"));

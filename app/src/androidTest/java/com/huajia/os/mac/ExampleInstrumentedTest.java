@@ -1,4 +1,4 @@
-package com.huajia.os.mac;
+package com.huajia.venusdesktop;
 
 import android.content.Context;
 
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
     public void useAppContext() {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        assertEquals("com.huajia.os.mac", appContext.getPackageName());
+        assertEquals("com.huajia.venusdesktop", appContext.getPackageName());
     }
 }

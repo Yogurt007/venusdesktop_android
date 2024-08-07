@@ -26,7 +26,7 @@
     <uses-permission android:name="android.permission.DISABLE_KEYGUARD"/>
 
     <application
-        android:name="com.huajia.mac.framework.app.AppApplication"
+        android:name="com.huajia.venusdesktop.framework.app.AppApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -35,9 +35,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MAC"
         tools:targetApi="31">
-        <service android:name="com.huajia.mac.framework.service.KeepLiveService"/>
-        <service android:name="com.huajia.mac.service.application.music.MusicService"/>
-        <activity android:name="com.huajia.mac.service.ui.SplashActivity"
+        <service android:name="com.huajia.venusdesktop.framework.service.KeepLiveService"/>
+        <service android:name="com.huajia.venusdesktop.service.application.music.MusicService"/>
+        <activity android:name="com.huajia.venusdesktop.service.ui.SplashActivity"
             android:exported="true"
             android:screenOrientation="landscape">
             <intent-filter>
@@ -47,17 +47,17 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.huajia.mac.UIMainActivity"
+            android:name="com.huajia.venusdesktop.UIMainActivity"
             android:exported="true"
             android:launchMode="singleTask"
             android:screenOrientation="landscape">
         </activity>
         <activity
-            android:name="com.huajia.mac.service.ui.desktop.AppDesktopActivity"
+            android:name="com.huajia.venusdesktop.service.ui.desktop.AppDesktopActivity"
             android:exported="false"
             android:screenOrientation="landscape">
         </activity>
-        <activity android:name="com.huajia.mac.service.application.music.MusicLockActivity"
+        <activity android:name="com.huajia.venusdesktop.service.application.music.MusicLockActivity"
             android:exported="false"
             android:launchMode="singleInstance"
             android:noHistory="true"

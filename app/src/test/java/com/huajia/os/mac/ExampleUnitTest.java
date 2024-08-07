@@ -1,4 +1,4 @@
-package com.huajia.os.mac;
+package com.huajia.venusdesktop;
 
 import org.junit.Test;
 
