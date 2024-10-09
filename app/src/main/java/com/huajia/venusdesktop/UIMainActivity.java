@@ -6,6 +6,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewTreeObserver;
 
+import com.huajia.venusdesktop.databinding.ActivityMainBinding;
 import com.huajia.venusdesktop.framework.window.WindowsConstants;
 import com.huajia.venusdesktop.framework.window.WindowsManager;
 
@@ -18,6 +19,8 @@ import com.huajia.venusdesktop.framework.window.WindowsManager;
 public class UIMainActivity extends MainActivity {
     private static final String TAG = "MainActivity";
 
+    private ActivityMainBinding binding;
+
     private View desktop;
 
     private View topContainer;
@@ -27,7 +30,8 @@ public class UIMainActivity extends MainActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         initView();
 

@@ -14,20 +14,20 @@ import androidx.annotation.Nullable;
 import com.huajia.venusdesktop.UIMainActivity;
 import com.huajia.venusdesktop.R;
 import com.huajia.venusdesktop.base.BaseActivity;
+import com.huajia.venusdesktop.databinding.ActivityPowerOnBinding;
 
 /**
  * 开机动画
  */
 public class SplashActivity extends BaseActivity {
 
-    private SeekBar mSeekBar;
+    private ActivityPowerOnBinding binding;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_power_on);
-
-        mSeekBar = findViewById(R.id.seekBar);
+        binding = ActivityPowerOnBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         initAnim();
     }
@@ -40,7 +40,7 @@ public class SplashActivity extends BaseActivity {
             @Override
             public void onAnimationUpdate(@NonNull ValueAnimator value) {
                 int progress = (int) value.getAnimatedValue();
-                mSeekBar.setProgress(progress);
+                binding.seekBar.setProgress(progress);
             }
         });
         anim.addListener(new AnimatorListenerAdapter() {

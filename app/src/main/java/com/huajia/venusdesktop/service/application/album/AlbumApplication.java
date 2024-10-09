@@ -10,11 +10,10 @@ import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import com.github.chrisbanes.photoview.PhotoView;
 import com.google.gson.Gson;
 import com.huajia.annotation.Route;
+import com.huajia.venusdesktop.databinding.ApplicationAlbumBinding;
 import com.huajia.venusdesktop.framework.router.TRouterPath;
 import com.huajia.venusdesktop.framework.eventbus.EventBusConstants;
 import com.huajia.venusdesktop.framework.eventbus.MessageEvent;
@@ -37,16 +36,14 @@ import java.util.List;
 public class AlbumApplication extends BaseApplication {
     private static final String TAG = "AlbumApplication";
 
+    private ApplicationAlbumBinding binding;
+
     /**
      * 相册列表
      */
     private List<AlbumBean> albumList;
 
-    private RecyclerView recyclerView;
-
     private AlbumRecyclerViewAdapter adapter;
-
-    private PhotoView photoView;
 
     private ImageView ivBack;
 
@@ -57,7 +54,8 @@ public class AlbumApplication extends BaseApplication {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.application_album);
+        binding = ApplicationAlbumBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
         initView();
     }
 
@@ -77,12 +75,10 @@ public class AlbumApplication extends BaseApplication {
         findViewById(R.id.close_button).setOnClickListener( view -> {
             dismiss();
         });
-        photoView = findViewById(R.id.photo_view);
         albumList = new ArrayList<>();
         scanPhoto();
-        recyclerView = findViewById(R.id.recycler_view);
         adapter = new AlbumRecyclerViewAdapter(getContext(), albumList);
-        recyclerView.setAdapter(adapter);
+        binding.recyclerView.setAdapter(adapter);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 3);
         gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
@@ -93,7 +89,7 @@ public class AlbumApplication extends BaseApplication {
                 return 1;
             }
         });
-        recyclerView.setLayoutManager(gridLayoutManager);
+        binding.recyclerView.setLayoutManager(gridLayoutManager);
         adapter.setOnPhotoClickListener(new AlbumRecyclerViewAdapter.OnPhotoClickListener() {
             @Override
             public void onClick(String photoUrl) {
@@ -105,8 +101,8 @@ public class AlbumApplication extends BaseApplication {
         ivBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                recyclerView.setVisibility(View.VISIBLE);
-                photoView.setVisibility(View.GONE);
+                binding.recyclerView.setVisibility(View.VISIBLE);
+                binding.photoView.setVisibility(View.GONE);
                 ivBack.setVisibility(View.GONE);
             }
         });
@@ -158,10 +154,10 @@ public class AlbumApplication extends BaseApplication {
 
     private void previewPhoto(String photoUrl) {
         ivBack.setVisibility(View.VISIBLE);
-        recyclerView.setVisibility(View.GONE);
-        photoView.setVisibility(View.VISIBLE);
+        binding.recyclerView.setVisibility(View.GONE);
+        binding.photoView.setVisibility(View.VISIBLE);
         Bitmap bitmap = BitmapFactory.decodeFile(photoUrl);
-        photoView.setImageBitmap(bitmap);
+        binding.photoView.setImageBitmap(bitmap);
     }
 
     private long dateToStamp(String sDate) {

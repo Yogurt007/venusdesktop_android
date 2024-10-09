@@ -13,6 +13,7 @@ import androidx.lifecycle.LifecycleOwner;
 
 import com.google.android.material.tabs.TabLayout;
 import com.huajia.annotation.Route;
+import com.huajia.venusdesktop.databinding.ApplicationCameraBinding;
 import com.huajia.venusdesktop.framework.router.TRouterPath;
 import com.huajia.venusdesktop.utils.PermissionHelper;
 import com.huajia.venusdesktop.utils.TimeUtils;
@@ -28,6 +29,8 @@ import com.huajia.venusdesktop.base.BaseApplication;
 public class CameraApplication extends BaseApplication {
     private static final String TAG = "CameraApplication";
 
+    private ApplicationCameraBinding binding;
+
     //相机的b比例 高 / 宽 4:3
     public static final double CAMERA_RATIO = 1.3334;
 
@@ -36,14 +39,6 @@ public class CameraApplication extends BaseApplication {
     private static final int CAMERA_PERMISSION_REQUEST_CODE = 1;
 
     private CameraXController mCameraXController;
-
-    private PreviewView mPreviewView;
-
-    private ImageView mTakePhotoButton;
-
-    private TabLayout mTabLayout;
-
-    private TextView recordTimeView;
 
     private Thread recordTimerThread;
 
@@ -63,7 +58,8 @@ public class CameraApplication extends BaseApplication {
     protected void onCreate(Bundle savedInstanceState) {
         PermissionHelper.checkCameraPermission(getContext());
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.application_camera);
+        binding = ApplicationCameraBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
         initView();
         initCamera();
     }
@@ -78,17 +74,14 @@ public class CameraApplication extends BaseApplication {
         findViewById(R.id.close_button).setOnClickListener( view -> {
             dismiss();
         });
-        mPreviewView = findViewById(R.id.preview);
-        mTakePhotoButton = findViewById(R.id.take_photo_button);
-        mTakePhotoButton.setOnClickListener(view -> {
+        binding.takePhotoButton.setOnClickListener(view -> {
             if (type == CameraXController.TYPE_PHOTO) {
                 mCameraXController.takePhoto();
             } else if (type == CameraXController.TYPE_VIDEO) {
                 mCameraXController.record();
             }
         });
-        mTabLayout = findViewById(R.id.camera_tab_layout);
-        mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+        binding.cameraTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 type = tab.getPosition();
@@ -104,27 +97,26 @@ public class CameraApplication extends BaseApplication {
 
             }
         });
-        recordTimeView = findViewById(R.id.record_time_view);
     }
 
     private void initCamera(){
-        mPreviewView.setOutlineProvider(new RoundedCornerOutlineProvider(30));
-        mPreviewView.setClipToOutline(true);
-        mPreviewView.setImplementationMode(PreviewView.ImplementationMode.COMPATIBLE);
-        mCameraXController = new CameraXController(getContext(), mPreviewView, (LifecycleOwner) mContext);
+        binding.preview.setOutlineProvider(new RoundedCornerOutlineProvider(30));
+        binding.preview.setClipToOutline(true);
+        binding.preview.setImplementationMode(PreviewView.ImplementationMode.COMPATIBLE);
+        mCameraXController = new CameraXController(getContext(), binding.preview, (LifecycleOwner) mContext);
         mCameraXController.startCamera();
         mCameraXController.setCameraCallBack(new CameraXController.ICameraCallBack() {
             @Override
             public void startRecord() {
                 Log.i(TAG, "startRecord");
-                recordTimeView.setVisibility(View.VISIBLE);
+                binding.recordTimeView.setVisibility(View.VISIBLE);
                 switchRecordTimer(true);
             }
 
             @Override
             public void stopRecord() {
                 Log.i(TAG, "stopRecord");
-                recordTimeView.setVisibility(View.GONE);
+                binding.recordTimeView.setVisibility(View.GONE);
                 switchRecordTimer(false);
             }
         });
@@ -143,10 +135,10 @@ public class CameraApplication extends BaseApplication {
                 while (isRecording) {
                     time++;
                     int finalTime = time;
-                    recordTimeView.post(new Runnable() {
+                    binding.recordTimeView.post(new Runnable() {
                         @Override
                         public void run() {
-                            recordTimeView.setText(TimeUtils.secToTime(finalTime));
+                            binding.recordTimeView.setText(TimeUtils.secToTime(finalTime));
                         }
                     });
                     try {

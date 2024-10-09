@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.huajia.annotation.Route;
+import com.huajia.venusdesktop.databinding.ApplicationMusicBinding;
 import com.huajia.venusdesktop.framework.router.TRouterPath;
 import com.huajia.venusdesktop.service.application.music.adapter.MusicAdapter;
 import com.huajia.venusdesktop.service.application.music.bean.MusicBean;
@@ -31,22 +32,9 @@ import java.util.List;
 public class MusicApplication extends BaseApplication {
     private static final String TAG = "MusicApplication";
 
-    private RecyclerView mRecyclerView;
+    private ApplicationMusicBinding binding;
 
     private MusicAdapter mAdapter;
-
-    //旋转图片
-    private ImageView mAnimImageView;
-
-    private CircularProgressBar mProgressBar;
-
-    private ImageView mPreviousButton;
-
-    private ImageView mStopButton;
-
-    private ImageView mNextButton;
-
-    private ImageView mStartButton;
 
     private BroadcastReceiver receiver = new BroadcastReceiver() {
         @Override
@@ -55,8 +43,8 @@ public class MusicApplication extends BaseApplication {
             if (MusicServiceConstants.MUSIC_SERVICE.equals(action)) {
                 int duration = intent.getIntExtra(MusicServiceConstants.DURATION_SONG, 0);
                 int progress = intent.getIntExtra(MusicServiceConstants.PROGRESS_SONG, 0);
-                mProgressBar.setMaxProgress(duration);
-                mProgressBar.setProgress(progress);
+                binding.progressBar.setMaxProgress(duration);
+                binding.progressBar.setProgress(progress);
             }
         }
     };
@@ -68,7 +56,8 @@ public class MusicApplication extends BaseApplication {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.application_music);
+        binding = ApplicationMusicBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
         initView();
         initRecyclerView();
         IntentFilter intentFilter = new IntentFilter();
@@ -84,51 +73,44 @@ public class MusicApplication extends BaseApplication {
         findViewById(R.id.reduce_close).setOnClickListener( view -> {
             dismiss();
         });
-        mAnimImageView = findViewById(R.id.anim_image);
-        mProgressBar = findViewById(R.id.progress_bar);
-        mPreviousButton = findViewById(R.id.previous_button);
-        mStopButton = findViewById(R.id.stop_button);
-        mNextButton = findViewById(R.id.next_button);
-        mStartButton = findViewById(R.id.start_button);
-        mPreviousButton.setOnClickListener(view -> {
+        binding.previousButton.setOnClickListener(view -> {
             Intent intent = new Intent();
             intent.setAction(MusicServiceConstants.MUSIC_SERVICE);
             intent.putExtra(MusicServiceConstants.PREVIOUS_SONG, true);
             getContext().sendBroadcast(intent);
         });
-        mStopButton.setOnClickListener(view -> {
+        binding.stopButton.setOnClickListener(view -> {
             Intent intent = new Intent();
             intent.setAction(MusicServiceConstants.MUSIC_SERVICE);
             intent.putExtra(MusicServiceConstants.SWITCH_SONG, MusicServiceConstants.STOP_SONG);
             getContext().sendBroadcast(intent);
-            mStartButton.setVisibility(View.VISIBLE);
-            mStopButton.setVisibility(View.GONE);
+            binding.startButton.setVisibility(View.VISIBLE);
+            binding.stopButton.setVisibility(View.GONE);
         });
-        mNextButton.setOnClickListener(view -> {
+        binding.nextButton.setOnClickListener(view -> {
             Intent intent = new Intent();
             intent.setAction(MusicServiceConstants.MUSIC_SERVICE);
             intent.putExtra(MusicServiceConstants.NEXT_SONG, true);
             getContext().sendBroadcast(intent);
         });
-        mStartButton.setOnClickListener(view -> {
+        binding.startButton.setOnClickListener(view -> {
             Intent intent = new Intent();
             intent.setAction(MusicServiceConstants.MUSIC_SERVICE);
             intent.putExtra(MusicServiceConstants.SWITCH_SONG, MusicServiceConstants.START_SONG);
             getContext().sendBroadcast(intent);
-            mStartButton.setVisibility(View.GONE);
-            mStopButton.setVisibility(View.VISIBLE);
+            binding.startButton.setVisibility(View.GONE);
+            binding.stopButton.setVisibility(View.VISIBLE);
         });
     }
 
     private void initRecyclerView(){
-        mRecyclerView = findViewById(R.id.music_list_recycler_view);
         List<MusicBean> musicList = MusicList.getMusicList(getContext());
         mAdapter = new MusicAdapter(getContext(),musicList);
         mAdapter.setmListener((position) ->{
             startMusicService();
         });
-        mRecyclerView.setAdapter(mAdapter);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        binding.musicListRecyclerView.setAdapter(mAdapter);
+        binding.musicListRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
     }
 
     private void startMusicService() {
@@ -171,7 +153,7 @@ public class MusicApplication extends BaseApplication {
     private void rotating(){
         Animation animation = AnimationUtils.loadAnimation(getContext(), R.anim.music_keep_rotating_anim);
         animation.setInterpolator(new LinearInterpolator());
-        mAnimImageView.startAnimation(animation);
+        binding.animImage.startAnimation(animation);
     }
 
     @Override

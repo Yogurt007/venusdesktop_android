@@ -9,6 +9,7 @@ import android.widget.FrameLayout;
 import androidx.annotation.Nullable;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.huajia.venusdesktop.databinding.AppViewBinding;
 import com.huajia.venusdesktop.framework.application.ApplicationManager;
 import com.huajia.venusdesktop.service.ui.desktop.adpater.AppViewPagerAdapter;
 import com.huajia.venusdesktop.R;
@@ -19,17 +20,15 @@ import java.util.List;
 public class AppView extends FrameLayout {
     private static final String TAG = "AppView";
 
+    private AppViewBinding binding;
+
     private static final int PAGE_NUM = 15;
 
     private View rootView;
 
-    private ViewPager2 mViewPager;
-
     private List<LocalAppBean> mList = ApplicationManager.getInstance().getLocalAppList();
 
     private AppViewPagerAdapter mAdapter;
-
-    private DotLayout dotLayout;
 
     public AppView(Context context) {
         super(context);
@@ -48,18 +47,17 @@ public class AppView extends FrameLayout {
 
     private void initView(){
         rootView = LayoutInflater.from(getContext()).inflate(R.layout.app_view,this);
-        mViewPager = rootView.findViewById(R.id.view_pager);
+        binding = AppViewBinding.bind(rootView);
         mAdapter = new AppViewPagerAdapter(getContext(),mList,PAGE_NUM);
-        mViewPager.setAdapter(mAdapter);
-        mViewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+        binding.viewPager.setAdapter(mAdapter);
+        binding.viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
             public void onPageSelected(int position) {
                 super.onPageSelected(position);
-                dotLayout.setCurrentItem(position);
+                binding.dotLayout.setCurrentItem(position);
             }
         });
 
-        dotLayout = rootView.findViewById(R.id.dot_layout);
-        dotLayout.init((int) Math.ceil(mList.size() / 16f));
+        binding.dotLayout.init((int) Math.ceil(mList.size() / 16f));
     }
 }
