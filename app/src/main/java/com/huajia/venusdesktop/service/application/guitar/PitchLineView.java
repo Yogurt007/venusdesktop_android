@@ -8,7 +8,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.util.AttributeSet;
-import android.util.Log;
+import com.orhanobut.logger.Logger;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
 
@@ -172,7 +172,7 @@ public class PitchLineView extends View {
     public void setProgress(float progress) {
         isRunning = true;
         progress = Math.abs((float)(Math.round(progress * 100)) / 100);
-        Log.i(TAG, "progress : " + progress);
+        Logger.i(TAG, "progress : " + progress);
         float start = this.progress;
         float end = progress;
         invalidate();

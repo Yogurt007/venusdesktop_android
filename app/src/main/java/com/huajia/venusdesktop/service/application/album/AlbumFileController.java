@@ -2,10 +2,8 @@ package com.huajia.venusdesktop.service.application.album;
 
 import android.content.Context;
 import android.os.Handler;
-import android.os.Looper;
-import android.util.Log;
+import com.orhanobut.logger.Logger;
 
-import com.google.gson.Gson;
 import com.huajia.venusdesktop.framework.task.TaskQueue;
 import com.huajia.venusdesktop.utils.TimeUtils;
 
@@ -74,7 +72,7 @@ public class AlbumFileController {
                                         substring(0, file1.getName().indexOf(".")));
                                 long l2 = Long.parseLong(file2.getName().
                                         substring(0, file2.getName().indexOf(".")));
-                                Log.i(TAG, String.valueOf(l1));
+                                Logger.i(TAG, String.valueOf(l1));
                                 if (l1 > l2) {
                                     return -1;
                                 }
@@ -97,7 +95,7 @@ public class AlbumFileController {
                     listener.onSuccess();
                 });
             } catch (Exception e) {
-                Log.i(TAG, "scanAlbum error, " + e.getMessage());
+                Logger.i(TAG, "scanAlbum error, " + e.getMessage());
                 handler.post(() -> {
                     listener.onError();
                 });

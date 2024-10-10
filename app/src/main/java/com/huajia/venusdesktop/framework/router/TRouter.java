@@ -2,7 +2,7 @@ package com.huajia.venusdesktop.framework.router;
 
 import android.content.Context;
 import android.graphics.Point;
-import android.util.Log;
+import com.orhanobut.logger.Logger;
 import android.util.Size;
 
 import com.huajia.annotation.RouteMeta;
@@ -82,7 +82,7 @@ public class TRouter {
 
     public void navigation() {
         if (builder == null) {
-            Log.i(TAG, "builder is null");
+            Logger.i(TAG, "builder is null");
             return;
         }
 
@@ -105,7 +105,7 @@ public class TRouter {
             }
 
             if (!(object instanceof BaseApplication)) {
-                Log.i(TAG, "object not instanceof BaseApplication,name :" + object.getClass().getName());
+                Logger.i(TAG, "object not instanceof BaseApplication,name :" + object.getClass().getName());
                 return;
             }
             BaseApplication application = (BaseApplication) object;

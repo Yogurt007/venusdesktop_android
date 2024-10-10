@@ -2,7 +2,7 @@ package com.huajia.venusdesktop.widget;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.util.Log;
+import com.orhanobut.logger.Logger;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -56,7 +56,7 @@ public class MainActivityBottomView extends FrameLayout {
     public boolean onTouchEvent(MotionEvent event) {
         switch (event.getAction()){
             case MotionEvent.ACTION_DOWN:
-                Log.i(TAG,"按下： x : " + event.getRawX() + ", y : " + event.getRawY());
+                Logger.i(TAG,"按下： x : " + event.getRawX() + ", y : " + event.getRawY());
                 break;
         }
         return super.onTouchEvent(event);
@@ -70,6 +70,6 @@ public class MainActivityBottomView extends FrameLayout {
         view.getLocationOnScreen(location);
         int centerX = location[0] + view.getWidth() / 2;
         int centerY = location[1] + view.getHeight() / 2;
-        Log.i(TAG, "getCenterCoordinate: centerX = " + centerX + ", centerY = " + centerY);
+        Logger.i(TAG, "getCenterCoordinate: centerX = " + centerX + ", centerY = " + centerY);
     }
 }

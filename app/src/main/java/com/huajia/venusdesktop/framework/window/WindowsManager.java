@@ -1,7 +1,7 @@
 package com.huajia.venusdesktop.framework.window;
 
 import android.content.Context;
-import android.util.Log;
+import com.orhanobut.logger.Logger;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
@@ -71,7 +71,7 @@ public class WindowsManager {
      */
     public void openWindow(TRouter.TRouterBuilder builder, BaseApplication application) {
         if (checkAlive(builder.getRouterPath())) {
-            Log.i(TAG, "window is open, not continue open");
+            Logger.i(TAG, "window is open, not continue open");
             return;
         }
         Window window = application.getWindow();
@@ -120,7 +120,7 @@ public class WindowsManager {
         if (application.isShowing()){
             View view = application.findViewById(R.id.application_layout);
             if (view == null) {
-                Log.i(TAG, "application findViewById is null");
+                Logger.i(TAG, "application findViewById is null");
                 return true;
             }
             Animation animation = AnimationUtils.loadAnimation(context, R.anim.application_active_tip_anim);

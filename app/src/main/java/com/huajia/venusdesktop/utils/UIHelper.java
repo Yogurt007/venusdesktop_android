@@ -3,7 +3,7 @@ package com.huajia.venusdesktop.utils;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.graphics.Point;
-import android.util.Log;
+import com.orhanobut.logger.Logger;
 import android.view.View;
 import android.view.WindowManager;
 
@@ -59,7 +59,7 @@ public class UIHelper {
         view.getLocationOnScreen(location);
         Point point = new Point();
         point.set(location[0] - view.getWidth(), location[1] + view.getHeight());
-        Log.i(TAG,"getViewLBottomCoordinate,x: " + point.x + " , y: " + point.y);
+        Logger.i(TAG,"getViewLBottomCoordinate,x: " + point.x + " , y: " + point.y);
         return point;
     }
 }

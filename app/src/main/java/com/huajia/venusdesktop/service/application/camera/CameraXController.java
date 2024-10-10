@@ -2,7 +2,7 @@ package com.huajia.venusdesktop.service.application.camera;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.util.Log;
+import com.orhanobut.logger.Logger;
 import android.util.Size;
 
 import androidx.annotation.NonNull;
@@ -107,7 +107,7 @@ public class CameraXController {
             @Override
             public void onImageSaved(@NonNull ImageCapture.OutputFileResults outputFileResults) {
                 EventBus.getDefault().post(new MessageEvent(EventBusConstants.TAKE_PHOTO_SUCCESS));
-                Log.i(TAG, "拍照成功");
+                Logger.i(TAG, "拍照成功");
             }
 
             @Override
@@ -121,11 +121,11 @@ public class CameraXController {
         if (mRecording != null) {
             mRecording.stop();
             mRecording = null;
-            Log.i(TAG, "停止录制");
+            Logger.i(TAG, "停止录制");
             iCameraCallBack.stopRecord();
             return;
         }
-        Log.i(TAG, "开始录制");
+        Logger.i(TAG, "开始录制");
         File videoDirectory = CacheUtils.getAlbumDirectory(mContext);
         File file = new File(videoDirectory, System.currentTimeMillis() + ".mp4");
         FileOutputOptions fileOutputOptions = new FileOutputOptions.Builder(file).build();

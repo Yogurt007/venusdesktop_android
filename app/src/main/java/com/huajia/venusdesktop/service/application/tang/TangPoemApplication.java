@@ -1,7 +1,7 @@
 package com.huajia.venusdesktop.service.application.tang;
 
 import android.content.Context;
-import android.util.Log;
+import com.orhanobut.logger.Logger;
 
 import androidx.annotation.NonNull;
 
@@ -50,7 +50,7 @@ public class TangPoemApplication extends BaseApplication {
                 .onPageChange(new OnPageChangeListener() {
                     @Override
                     public void onPageChanged(int page, int pageCount) {
-                        Log.i(TAG, "当前浏览的页数： " + page);
+                        Logger.i(TAG, "当前浏览的页数： " + page);
                         currentPage = page;
                     }
                 })

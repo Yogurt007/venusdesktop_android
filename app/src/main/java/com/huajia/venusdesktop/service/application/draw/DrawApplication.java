@@ -2,7 +2,7 @@ package com.huajia.venusdesktop.service.application.draw;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
+import com.orhanobut.logger.Logger;
 import android.widget.SeekBar;
 
 import androidx.annotation.NonNull;
@@ -41,7 +41,7 @@ public class DrawApplication extends BaseApplication {
         mPaintWidthBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                Log.i(TAG,"progress = " + progress);
+                Logger.i(TAG,"progress = " + progress);
             }
 
             @Override

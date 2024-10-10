@@ -8,7 +8,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.util.Log;
+import com.orhanobut.logger.Logger;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
@@ -117,7 +117,7 @@ public class BluetoothDialog extends BaseApplication {
     @SuppressLint("MissingPermission")
     private void changeBluetoothStatus(boolean status) {
         if (bluetoothAdapter == null) {
-            Log.i(TAG, "bluetoothAdapter is null");
+            Logger.i(TAG, "bluetoothAdapter is null");
             return;
         }
         if (status) {
@@ -137,7 +137,7 @@ public class BluetoothDialog extends BaseApplication {
             switch (action) {
                 case BluetoothAdapter.ACTION_STATE_CHANGED:
                     int state = intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, BluetoothAdapter.ERROR);
-                    Log.i(TAG,"receiver,BluetoothAdapter.ACTION_STATE_CHANGED: " + state);
+                    Logger.i(TAG,"receiver,BluetoothAdapter.ACTION_STATE_CHANGED: " + state);
                     bluetoothSwitch.setChecked(bluetoothAdapter.isEnabled());
                     startDiscovery();
                     break;
@@ -174,7 +174,7 @@ public class BluetoothDialog extends BaseApplication {
     @SuppressLint("MissingPermission")
     private void startDiscovery() {
         if (bluetoothAdapter == null) {
-            Log.i(TAG, "bluetoothAdapter is null");
+            Logger.i(TAG, "bluetoothAdapter is null");
             return;
         }
         bluetoothAdapter.startDiscovery();

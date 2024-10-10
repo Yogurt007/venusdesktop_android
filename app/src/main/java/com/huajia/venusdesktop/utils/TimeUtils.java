@@ -1,7 +1,5 @@
 package com.huajia.venusdesktop.utils;
 
-import android.util.Log;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 

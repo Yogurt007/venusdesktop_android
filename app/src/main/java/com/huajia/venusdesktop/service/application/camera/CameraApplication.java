@@ -2,10 +2,8 @@ package com.huajia.venusdesktop.service.application.camera;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
+import com.orhanobut.logger.Logger;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.camera.view.PreviewView;
@@ -108,14 +106,14 @@ public class CameraApplication extends BaseApplication {
         mCameraXController.setCameraCallBack(new CameraXController.ICameraCallBack() {
             @Override
             public void startRecord() {
-                Log.i(TAG, "startRecord");
+                Logger.i(TAG, "startRecord");
                 binding.recordTimeView.setVisibility(View.VISIBLE);
                 switchRecordTimer(true);
             }
 
             @Override
             public void stopRecord() {
-                Log.i(TAG, "stopRecord");
+                Logger.i(TAG, "stopRecord");
                 binding.recordTimeView.setVisibility(View.GONE);
                 switchRecordTimer(false);
             }
@@ -125,7 +123,7 @@ public class CameraApplication extends BaseApplication {
     private void switchRecordTimer(boolean value) {
         isRecording = value;
         if (!value) {
-            Log.i(TAG, "暂停时间线程");
+            Logger.i(TAG, "暂停时间线程");
             return;
         }
         recordTimerThread = new Thread(new Runnable() {

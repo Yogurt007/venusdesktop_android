@@ -4,7 +4,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
-import android.util.Log;
+import com.orhanobut.logger.Logger;
 
 import androidx.core.content.ContextCompat;
 
@@ -24,7 +24,7 @@ public class PermissionHelper {
             Activity activity = (Activity) context;
             activity.requestPermissions(new String[]{ Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO },101);
         }catch (Exception e){
-            Log.i(TAG,e.getMessage());
+            Logger.i(TAG,e.getMessage());
         }
     }
 
@@ -37,7 +37,7 @@ public class PermissionHelper {
             Activity activity = (Activity) context;
             activity.requestPermissions(new String[]{Manifest.permission.ACCESS_WIFI_STATE, Manifest.permission.ACCESS_COARSE_LOCATION},101);
         }catch (Exception e){
-            Log.i(TAG,e.getMessage());
+            Logger.i(TAG,e.getMessage());
         }
     }
 

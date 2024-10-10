@@ -1,7 +1,7 @@
 package com.huajia.venusdesktop.framework.app;
 
 import android.app.Application;
-import android.util.Log;
+import com.orhanobut.logger.Logger;
 
 /**
  * @Author: HuaJ1a
@@ -31,7 +31,7 @@ public class ActivityLifecycleManager {
 
     public void init(Application application) {
         if (application == null) {
-            Log.i(TAG, "application is null");
+            Logger.i(TAG, "application is null");
             return;
         }
         if (activityLifecycleImp == null) {
@@ -42,7 +42,7 @@ public class ActivityLifecycleManager {
 
     public void release(Application application) {
         if (application == null) {
-            Log.i(TAG, "application is null");
+            Logger.i(TAG, "application is null");
             return;
         }
         application.unregisterActivityLifecycleCallbacks(activityLifecycleImp);

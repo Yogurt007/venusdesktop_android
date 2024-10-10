@@ -11,7 +11,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.media.MediaPlayer;
 import android.os.IBinder;
-import android.util.Log;
+import com.orhanobut.logger.Logger;
 import android.widget.RemoteViews;
 
 import androidx.annotation.Nullable;
@@ -68,7 +68,7 @@ public class MusicService extends Service {
                     break;
                 case Intent.ACTION_SCREEN_OFF:
                     if (!mediaPlayer.isPlaying()) {
-                        Log.i(TAG, "music is not playing， not open lock activity");
+                        Logger.i(TAG, "music is not playing， not open lock activity");
                         return;
                     }
                     Intent lockIntent = new Intent(MusicService.this, MusicLockActivity.class);
@@ -191,7 +191,7 @@ public class MusicService extends Service {
         if (TextUtils.isEmpty(value)) {
             return;
         }
-        Log.i(TAG, "switchSong： " + value);
+        Logger.i(TAG, "switchSong： " + value);
         if (MusicServiceConstants.START_SONG.equals(value)) {
             mediaPlayer.start();
         } else {

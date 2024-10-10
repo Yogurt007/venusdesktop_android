@@ -6,7 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.util.Log;
+import com.orhanobut.logger.Logger;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -129,7 +129,7 @@ public class MusicApplication extends BaseApplication {
         List<ActivityManager.RunningServiceInfo> runningServices = activityManager.getRunningServices(Integer.MAX_VALUE);
         for (ActivityManager.RunningServiceInfo runningService : runningServices) {
             if (runningService.service.getClassName().equals(MusicServiceConstants.MUSIC_SERVICE_NAME)) {
-                Log.i(TAG, "music service is running");
+                Logger.i(TAG, "music service is running");
                 return true;
             }
         }

@@ -4,14 +4,12 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.GridLayoutManager;
 
-import com.google.gson.Gson;
 import com.huajia.annotation.Route;
 import com.huajia.venusdesktop.databinding.ApplicationAlbumBinding;
 import com.huajia.venusdesktop.framework.router.TRouterPath;
@@ -23,14 +21,6 @@ import com.huajia.venusdesktop.base.BaseApplication;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
-
-import java.io.File;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.List;
 
 @Route(path = TRouterPath.ALBUM, heightPercent = 1)
 public class AlbumApplication extends BaseApplication {

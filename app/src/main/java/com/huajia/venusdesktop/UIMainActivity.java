@@ -1,7 +1,7 @@
 package com.huajia.venusdesktop;
 
 import android.os.Bundle;
-import android.util.Log;
+import com.orhanobut.logger.Logger;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -42,7 +42,7 @@ public class UIMainActivity extends MainActivity {
     public boolean onTouchEvent(MotionEvent event) {
         switch (event.getAction()){
             case MotionEvent.ACTION_DOWN:
-                Log.i(TAG,"按下： x : " + event.getRawX() + ", y : " + event.getRawY());
+                Logger.i(TAG,"按下： x : " + event.getRawX() + ", y : " + event.getRawY());
                 break;
         }
         return super.onTouchEvent(event);
