@@ -4,41 +4,63 @@ package com.huajia.venusdesktop.service.application.album;
  * @Author: HuaJ1a
  * @Emal: 821759439@qq.com
  * @Date: 2024/3/3
- * @Description:
+ * @Description: 相册bean
  */
 public class AlbumBean {
 
     /**
-     * 根据时间分组
+     * 创建时间
      */
-    private String id;
+    private String time;
 
     /**
-     * 照片列表
+     * 本地存储链接
      */
-    private String photoUrl;
+    private String fileUrl;
+
+    /**
+     * 数据类型 - 1、image 2、video
+     */
+    private String type;
 
     public AlbumBean(){
     }
 
-    public AlbumBean(String id, String photoUrl) {
-        this.id = id;
-        this.photoUrl = photoUrl;
+    public AlbumBean(String time, String fileUrl) {
+        this.time = time;
+        this.fileUrl = fileUrl;
     }
 
-    public String getId() {
-        return id;
+    public String getTime() {
+        return time;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setTime(String time) {
+        this.time = time;
     }
 
-    public String getPhotoUrl() {
-        return photoUrl;
+    public String getFileUrl() {
+        return fileUrl;
     }
 
-    public void setPhotoUrl(String photoUrl) {
-        this.photoUrl = photoUrl;
+    public void setFileUrl(String fileUrl) {
+        this.fileUrl = fileUrl;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    @Override
+    public String toString() {
+        return "AlbumBean{" +
+                "time='" + time + '\'' +
+                ", fileUrl='" + fileUrl + '\'' +
+                ", type='" + type + '\'' +
+                '}';
     }
 }

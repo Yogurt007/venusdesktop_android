@@ -126,7 +126,7 @@ public class CameraXController {
             return;
         }
         Log.i(TAG, "开始录制");
-        File videoDirectory = CacheUtils.getVideoDirectory(mContext);
+        File videoDirectory = CacheUtils.getAlbumDirectory(mContext);
         File file = new File(videoDirectory, System.currentTimeMillis() + ".mp4");
         FileOutputOptions fileOutputOptions = new FileOutputOptions.Builder(file).build();
         mRecording = mRecorder.prepareRecording(mContext, fileOutputOptions)

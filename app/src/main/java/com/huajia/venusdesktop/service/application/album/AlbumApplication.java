@@ -38,14 +38,11 @@ public class AlbumApplication extends BaseApplication {
 
     private ApplicationAlbumBinding binding;
 
-    /**
-     * 相册列表
-     */
-    private List<AlbumBean> albumList;
-
     private AlbumRecyclerViewAdapter adapter;
 
     private ImageView ivBack;
+
+    private AlbumFileController albumController;
 
     public AlbumApplication(@NonNull Context context) {
         super(context);
@@ -56,6 +53,7 @@ public class AlbumApplication extends BaseApplication {
         super.onCreate(savedInstanceState);
         binding = ApplicationAlbumBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        initData();
         initView();
     }
 
@@ -75,9 +73,7 @@ public class AlbumApplication extends BaseApplication {
         findViewById(R.id.close_button).setOnClickListener( view -> {
             dismiss();
         });
-        albumList = new ArrayList<>();
-        scanPhoto();
-        adapter = new AlbumRecyclerViewAdapter(getContext(), albumList);
+        adapter = new AlbumRecyclerViewAdapter(getContext(), albumController.getAlbumList());
         binding.recyclerView.setAdapter(adapter);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 3);
         gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
@@ -108,48 +104,25 @@ public class AlbumApplication extends BaseApplication {
         });
     }
 
-    /**
-     * 扫描所有图片
-     */
-    private void scanPhoto() {
-        File file = new File(getContext().getFilesDir(), "album");
-        File[] albumFolder = file.listFiles();
-        if (albumFolder == null) {
-            return;
-        }
-        Arrays.sort(albumFolder, new Comparator<File>() {
+    private void initData() {
+        albumController = new AlbumFileController(getContext());
+        scanAlbum();
+    }
+
+    private void scanAlbum() {
+        albumController.scanAlbum(new AlbumFileController.OnScanAlbumListener() {
             @Override
-            public int compare(File file1, File file2) {
-                if (dateToStamp(file1.getName()) > dateToStamp(file2.getName())) {
-                    return -1;
-                }
-                return 0;
+            public void onSuccess() {
+                binding.loadingView.setVisibility(View.GONE);
+                binding.recyclerView.setVisibility(View.VISIBLE);
+                adapter.refreshData(albumController.getAlbumList());
+            }
+
+            @Override
+            public void onError() {
+
             }
         });
-        for (File album : albumFolder) {
-            if (album.isDirectory()) {
-                // 添加一个空，作为开头
-                albumList.add(new AlbumBean(album.getName(), ""));
-                File[] photoFolder = album.listFiles();
-                // 照片根据时间戳排序
-                Arrays.sort(photoFolder, new Comparator<File>() {
-                    @Override
-                    public int compare(File file1, File file2) {
-                        long l1 = Long.parseLong(file1.getName().replace(".jpg", ""));
-                        long l2 = Long.parseLong(file2.getName().replace(".jpg", ""));
-                        if (l1 > l2) {
-                            return -1;
-                        }
-                        return 0;
-                    }
-                });
-                for (File photo : photoFolder) {
-                    // 添加照片
-                    albumList.add(new AlbumBean(album.getName(), photo.getAbsolutePath()));
-                }
-            }
-        }
-        Log.i(TAG, "albumList" + new Gson().toJson(albumList));
     }
 
     private void previewPhoto(String photoUrl) {
@@ -160,23 +133,10 @@ public class AlbumApplication extends BaseApplication {
         binding.photoView.setImageBitmap(bitmap);
     }
 
-    private long dateToStamp(String sDate) {
-        try {
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            Date date = simpleDateFormat.parse(sDate);
-            return date.getTime();
-        } catch (Exception e) {
-            Log.i(TAG,e.getMessage());
-        }
-        return 0L;
-    }
-
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(MessageEvent event) {
         if (EventBusConstants.TAKE_PHOTO_SUCCESS.equals(event.getMessage())) {
-            albumList.clear();
-            scanPhoto();
-            adapter.refreshData(albumList);
+            scanAlbum();
         }
     }
 }

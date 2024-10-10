@@ -69,4 +69,6 @@ dependencies {
     //注解处理器
     implementation project(path: ':route-annotation')
     annotationProcessor project(path: ':route-compiler')
+
+    implementation 'com.github.ybq:Android-SpinKit:1.4.0'
 }

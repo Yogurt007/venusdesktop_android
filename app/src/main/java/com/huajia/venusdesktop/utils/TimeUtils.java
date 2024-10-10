@@ -1,5 +1,10 @@
 package com.huajia.venusdesktop.utils;
 
+import android.util.Log;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * @Author: HuaJ1a
  * @Emal: 821759439@qq.com
@@ -22,6 +27,17 @@ public class TimeUtils {
             return String.format("00:0%d", second);
         }
         return String.format("00:%d", second);
+    }
+
+    public static long dateToStamp(String sDate) {
+        try {
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            Date date = simpleDateFormat.parse(sDate);
+            return date.getTime();
+        } catch (Exception e) {
+
+        }
+        return 0L;
     }
 
 }

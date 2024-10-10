@@ -26,16 +26,4 @@ public class CacheUtils {
         return mediaDir;
     }
 
-    public static File getVideoDirectory(Context context) {
-        Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyy-MM-dd");
-        String currentDate = dateFormat.format(calendar.getTime());
-        String fileName = "video/" + currentDate;
-        File mediaDir = new File(context.getFilesDir(), fileName);
-        if (!mediaDir.exists()) {
-            mediaDir.mkdirs();
-        }
-        return mediaDir;
-    }
-
 }

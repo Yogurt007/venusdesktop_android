@@ -60,26 +60,29 @@ public class AlbumRecyclerViewAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof AlbumTitleViewHolder){
             AlbumTitleViewHolder viewHolder = (AlbumTitleViewHolder) holder;
-            viewHolder.titleView.setText(list.get(position).getId());
+            viewHolder.titleView.setText(list.get(position).getTime());
         } else if (holder instanceof AlbumPhotoViewHolder) {
             AlbumPhotoViewHolder viewHolder = (AlbumPhotoViewHolder) holder;
             Glide.with(context)
-                    .load(list.get(position).getPhotoUrl())
+                    .load(list.get(position).getFileUrl())
                     .into(viewHolder.photoView);
             viewHolder.photoView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     if (onPhotoClickListener != null) {
-                        onPhotoClickListener.onClick(list.get(position).getPhotoUrl());
+                        onPhotoClickListener.onClick(list.get(position).getFileUrl());
                     }
                 }
             });
+            viewHolder.videoStopView.setVisibility(
+                    list.get(position).getType().equals(AlbumConstants.ALBUM_BEAN_TYPE_VIDEO)
+                            ? View.VISIBLE : View.GONE);
         }
     }
 
     @Override
     public int getItemViewType(int position) {
-        if (list.get(position).getPhotoUrl() == ""){
+        if (list.get(position).getFileUrl() == ""){
             return VIEW_TYPE_TITLE;
         }
         return VIEW_TYPE_PHOTO;
@@ -111,9 +114,12 @@ public class AlbumRecyclerViewAdapter extends RecyclerView.Adapter {
     class AlbumPhotoViewHolder extends RecyclerView.ViewHolder {
         private ImageView photoView;
 
+        private ImageView videoStopView;
+
         public AlbumPhotoViewHolder(@NonNull View itemView) {
             super(itemView);
             photoView = itemView.findViewById(R.id.album_photo);
+            videoStopView = itemView.findViewById(R.id.video_stop_view);
         }
     }
 
